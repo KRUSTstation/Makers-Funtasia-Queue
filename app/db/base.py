@@ -23,7 +23,7 @@ def __reset_db():
     conn.close()
 
 def get_db() -> Generator[sqlite3.Connection, None, None]:
-    conn = sqlite3.connect(os.path.join(DB_PATH, 'queue.db'))
+    conn = sqlite3.connect(os.path.join(DB_PATH, 'queue.db'), check_same_thread=False)
     conn.row_factory = sqlite3.Row
 
     try:
@@ -32,7 +32,7 @@ def get_db() -> Generator[sqlite3.Connection, None, None]:
         conn.close()
 
 def get_db_connection() -> sqlite3.Connection:
-    conn = sqlite3.connect(os.path.join(DB_PATH, 'queue.db'))
+    conn = sqlite3.connect(os.path.join(DB_PATH, 'queue.db'), check_same_thread=False)
     conn.row_factory = sqlite3.Row
     return conn
 

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Funtasia 2026</title>
+  <meta name="description" content="Administrator login for the Funtasia 2026 Makers Typing Game queue system.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts: Display + Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="login-body">
+
+  <!-- Back to home link -->
+  <a href="/" class="back-link" id="backLink">
+    <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+    Back to Funtasia
+  </a>
+
+  <!-- ===== LOGIN CARD ===== -->
+  <main class="login-wrapper" id="loginWrapper">
+
+    <!-- Branding -->
+    <div class="login-brand">
+      <div class="login-brand-badge">Funtasia 2026</div>
+      <div class="login-brand-title">
+        <span class="material-symbols-outlined login-brand-icon" aria-hidden="true">shield_lock</span>
+        Admin Portal
+      </div>
+      <p class="login-brand-sub">Makers Typing Game — Queue Management</p>
+    </div>
+
+    <!-- Divider -->
+    <div class="login-divider"></div>
+
+    <!-- Login Form -->
+    <form class="login-form" id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="adminUser" class="form-label">
+          <span class="material-symbols-outlined form-label-icon" aria-hidden="true">person</span>
+          Username
+        </label>
+        <input
+          type="text"
+          id="adminUser"
+          class="form-input"
+          placeholder="Enter admin username"
+          autocomplete="username"
+          autofocus
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="adminPass" class="form-label">
+          <span class="material-symbols-outlined form-label-icon" aria-hidden="true">lock</span>
+          Password
+        </label>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            id="adminPass"
+            class="form-input"
+            placeholder="Enter password"
+            autocomplete="current-password"
+          >
+          <button type="button" class="toggle-pass" id="togglePass" aria-label="Toggle password visibility" title="Show / hide password">
+            <span class="material-symbols-outlined" id="togglePassIcon" aria-hidden="true">visibility</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Error message area -->
+      <div class="login-error hidden" id="loginError" role="alert">
+        <span class="material-symbols-outlined" aria-hidden="true">error</span>
+        <span id="loginErrorText">Invalid credentials. Please try again.</span>
+      </div>
+
+      <button type="submit" class="login-btn" id="loginBtn">
+        <span id="loginBtnText">Sign In</span>
+        <span class="material-symbols-outlined login-btn-icon" id="loginBtnIcon" aria-hidden="true">login</span>
+      </button>
+    </form>
+
+    <!-- Footer note -->
+    <p class="login-footer-note">
+      <span class="material-symbols-outlined" aria-hidden="true">info</span>
+      Access is restricted to authorised Makers' Society members only.
+    </p>
+  </main>
+
+  <!-- Page footer -->
+  <footer class="footer">
+    <p class="footer-text">
+      Made with <span class="material-symbols-outlined footer-icon" aria-hidden="true">coffee</span>
+      by <strong>NJC Makers' Society</strong> · Funtasia 2026
+    </p>
+  </footer>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/admin_login.js"></script>
+</body>
+</html>

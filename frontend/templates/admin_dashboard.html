@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Funtasia 2026</title>
+  <meta name="description" content="Admin queue management dashboard for Funtasia 2026.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/admin.css">
+  <link rel="stylesheet" href="/css/admin_dashboard.css">
+</head>
+<body class="dashboard-body">
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="dash-topbar" id="dashTopbar">
+    <div class="dash-topbar-left">
+      <div class="dash-logo">
+        <span class="material-symbols-outlined dash-logo-icon" aria-hidden="true">shield_lock</span>
+        <div>
+          <span class="dash-logo-title">Admin Panel</span>
+          <span class="dash-logo-sub">Funtasia 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dash-topbar-right">
+      <!-- Live indicator & Auto-refresh note -->
+      <div class="dash-topbar-status">
+        <div class="dash-live-badge">
+          <span class="material-symbols-outlined live-dot" aria-hidden="true">circle</span>
+          Live
+        </div>
+        <span class="dash-refresh-note">Auto-updates every 15s</span>
+      </div>
+
+
+      <!-- Refresh -->
+      <button class="dash-icon-btn" id="refreshBtn" title="Refresh queue">
+        <span class="material-symbols-outlined refresh-icon" aria-hidden="true">refresh</span>
+      </button>
+
+      <!-- Logout -->
+      <a href="/admin/logout" class="dash-logout-btn" title="Sign out">
+        <span class="material-symbols-outlined" aria-hidden="true">logout</span>
+        Sign Out
+      </a>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="dash-layout">
+
+    <!-- Stats bar -->
+    <div class="dash-stats" id="dashStats">
+      <div class="stat-card" id="statTotal">
+        <span class="material-symbols-outlined stat-icon" aria-hidden="true">group</span>
+        <div class="stat-info">
+          <span class="stat-value" id="statTotalVal">—</span>
+          <span class="stat-label">Total</span>
+        </div>
+      </div>
+      <div class="stat-card" id="statWaiting">
+        <span class="material-symbols-outlined stat-icon" aria-hidden="true">hourglass_empty</span>
+        <div class="stat-info">
+          <span class="stat-value" id="statWaitingVal">—</span>
+          <span class="stat-label">Waiting</span>
+        </div>
+      </div>
+      <div class="stat-card" id="statServing">
+        <span class="material-symbols-outlined stat-icon" aria-hidden="true">sports_esports</span>
+        <div class="stat-info">
+          <span class="stat-value" id="statServingVal">—</span>
+          <span class="stat-label">Serving</span>
+        </div>
+      </div>
+      <div class="stat-card" id="statDone">
+        <span class="material-symbols-outlined stat-icon" aria-hidden="true">check_circle</span>
+        <div class="stat-info">
+          <span class="stat-value" id="statDoneVal">—</span>
+          <span class="stat-label">Done</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Queue table section -->
+    <section class="dash-section">
+      <div class="dash-section-header">
+        <h1 class="dash-section-title">
+          <span class="material-symbols-outlined" aria-hidden="true">assignment</span>
+          Queue
+        </h1>
+        <span class="dash-section-hint">Click any row to view full details</span>
+      </div>
+
+      <div class="dash-table-wrapper" id="queueTableWrapper">
+        <table class="dash-table" id="queueTable">
+          <thead>
+            <tr>
+              <th class="col-num">#</th>
+              <th class="col-name">Name</th>
+              <th class="col-status">Status</th>
+              <th class="col-time">Joined</th>
+              <th class="col-action" aria-label="Actions"></th>
+            </tr>
+          </thead>
+          <tbody id="queueTableBody">
+            <tr class="dash-empty-row">
+              <td colspan="5">
+                <span class="material-symbols-outlined" aria-hidden="true">sync</span>
+                Loading queue…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== DETAIL MODAL ===== -->
+  <div class="modal-overlay hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card" id="modalCard">
+
+      <!-- Modal header -->
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Queue Details</h2>
+        <button class="modal-close" id="modalClose" aria-label="Close">
+          <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        </button>
+      </div>
+
+      <!-- Queue number badge -->
+      <div class="modal-badge-row">
+        <div class="modal-queue-badge">
+          <span class="modal-queue-label">Queue No.</span>
+          <span class="modal-queue-num" id="modalQueueNum">—</span>
+        </div>
+        <span class="modal-status-tag" id="modalStatus">waiting</span>
+      </div>
+
+      <!-- Details grid -->
+      <div class="modal-details">
+        <div class="modal-detail-item">
+          <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">person</span>
+          <div>
+            <span class="modal-detail-label">Full Name</span>
+            <span class="modal-detail-value" id="modalName">—</span>
+          </div>
+        </div>
+        <div class="modal-detail-item">
+          <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">phone_android</span>
+          <div>
+            <span class="modal-detail-label">Phone Number</span>
+            <span class="modal-detail-value" id="modalPhone">—</span>
+          </div>
+        </div>
+        <div class="modal-detail-item">
+          <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">schedule</span>
+          <div>
+            <span class="modal-detail-label">Joined At</span>
+            <span class="modal-detail-value" id="modalTime">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status action buttons -->
+      <div class="modal-actions">
+        <span class="modal-actions-label">Change Status</span>
+        <div class="modal-action-btns">
+          <button class="modal-action-btn action-waiting"  id="btnWaiting"  data-status="waiting">
+            <span class="material-symbols-outlined" aria-hidden="true">hourglass_empty</span>
+            Waiting
+          </button>
+          <button class="modal-action-btn action-serving"  id="btnServing"  data-status="serving">
+            <span class="material-symbols-outlined" aria-hidden="true">sports_esports</span>
+            Serving
+          </button>
+          <button class="modal-action-btn action-done"     id="btnDone"     data-status="done">
+            <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+            Done
+          </button>
+        </div>
+        <p class="modal-action-feedback hidden" id="modalActionFeedback"></p>
+      </div>
+
+      <!-- Modal footer note -->
+      <p class="modal-footer-note">
+        <span class="material-symbols-outlined" aria-hidden="true">info</span>
+        Phone numbers are for operational use only.
+      </p>
+    </div>
+  </div>
+
+  <script src="/js/config.js"></script>
+  <script src="/js/admin_dashboard.js"></script>
+</body>
+</html>
