@@ -5,7 +5,7 @@
 
 const CONFIG = {
   // ── Server ──────────────────────────────────────────────────
-  API_BASE: "makers.njcfuntasia.com",
+  API_BASE: "",
 
   // ── localStorage key prefix ─────────────────────────────────
   // All queue keys are stored as  CONFIG.LS_PREFIX + 'keyName'
