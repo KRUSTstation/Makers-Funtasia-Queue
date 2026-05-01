@@ -1,26 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — Funtasia 2026</title>
-  <meta name="description" content="Admin queue management dashboard for Funtasia 2026.">
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard — Funtasia 2026{% endblock %}
+{% block description %}Administrator dashboard for Funtasia 2026 Makers Typing Game queue.{% endblock %}
+
+{% block meta %}
   <meta name="robots" content="noindex, nofollow">
+{% endblock %}
 
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Material Symbols Outlined -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-
-  <link rel="stylesheet" href="/css/main.css">
+{% block extra_css %}
   <link rel="stylesheet" href="/css/admin.css">
   <link rel="stylesheet" href="/css/admin_dashboard.css">
-</head>
-<body class="dashboard-body">
+{% endblock %}
 
+{% block body_class %}dashboard-body{% endblock %}
+
+{% block content %}
   <!-- ===== TOPBAR ===== -->
   <header class="dash-topbar" id="dashTopbar">
     <div class="dash-topbar-left">
@@ -200,7 +194,10 @@
     </div>
   </div>
 
-  <script src="/js/config.js"></script>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
   <script src="/js/admin_dashboard.js"></script>
-</body>
-</html>
+{% endblock %}
