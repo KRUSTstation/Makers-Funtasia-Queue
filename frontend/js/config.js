@@ -5,7 +5,7 @@
 
 const CONFIG = {
   // ── Server ──────────────────────────────────────────────────
-  API_BASE: "http://127.0.0.1:8000",
+  API_BASE: "makers.njcfuntasia.com",
 
   // ── localStorage key prefix ─────────────────────────────────
   // All queue keys are stored as  CONFIG.LS_PREFIX + 'keyName'
@@ -16,5 +16,5 @@ const CONFIG = {
   DASHBOARD_REFRESH_MS: 15000,   // admin dashboard
 
   // ── Queue timing ─────────────────────────────────────────────
-  MINS_PER_PERSON: 5,            // estimated minutes per player
+  MINS_PER_PERSON: 1.5,            // estimated minutes per player
 };
