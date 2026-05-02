@@ -1,13 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-  <!-- Admin Login Button (top-right corner) -->
-  <!-- <a href="/admin/login" id="adminBtn" class="admin-btn" title="Admin Login">
-    <span class="material-symbols-outlined" aria-hidden="true">manage_accounts</span>
-    Admin Login
-  </a> -->
-
   <!-- ===== HERO SECTION ===== -->
   <header class="hero">
     <div class="hero-badge">NJC Makers' Society Presents</div>
@@ -21,7 +14,28 @@
       <span class="material-symbols-outlined hero-tagline-icon" aria-hidden="true">celebration</span>
       Come, explore, and have fun with us!
     </p>
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="/join" class="join-btn" style="text-decoration: none; display: inline-flex;">
+        <span>Join the Queue</span>
+        <span class="material-symbols-outlined join-btn-icon" aria-hidden="true">arrow_forward</span>
+      </a>
+      <a href="/queue/status" id="viewStatusBtn" class="join-btn" style="text-decoration: none; display: inline-flex; opacity: 0.5; pointer-events: none; background: transparent; border: 1px solid var(--gold); color: var(--gold);">
+        <span>View Status</span>
+        <span class="material-symbols-outlined join-btn-icon" aria-hidden="true">search</span>
+      </a>
+    </div>
   </header>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const qNum = localStorage.getItem('fq_queueNumber');
+      const viewBtn = document.getElementById('viewStatusBtn');
+      if (qNum) {
+        viewBtn.style.opacity = '1';
+        viewBtn.style.pointerEvents = 'auto';
+      }
+    });
+  </script>
 
   <!-- ===== BOOTH DESCRIPTION SECTION ===== -->
   <section class="section booth-info" id="about">
@@ -62,78 +76,4 @@
     </div>
   </section>
 
-  <!-- ===== QUEUE JOIN SECTION ===== -->
-  <section class="section queue-section" id="join">
-    <div class="section-inner">
-      <div class="section-label">Join the Queue</div>
-      <h2 class="section-title">
-        <span class="material-symbols-outlined section-title-icon" aria-hidden="true">assignment</span>
-        Reserve Your Slot
-      </h2>
-      <p class="queue-intro">
-        Slots fill up fast! Enter your details below to join the virtual queue.
-        We'll call your number when it's your turn — no waiting around!
-      </p>
-
-      <div class="queue-form-card" id="queueFormCard">
-        <div class="form-header">
-          <span class="form-step">Step 1 of 1</span>
-          <h3 class="form-title">Your Details</h3>
-        </div>
-
-        <div class="form-group">
-          <label for="name" class="form-label">Full Name</label>
-          <input type="text" id="name" class="form-input" placeholder="e.g. Tan Wei Ming" autocomplete="name">
-        </div>
-
-        <div class="form-group">
-          <label for="phone" class="form-label">Phone Number</label>
-          <input type="tel" id="phone" class="form-input" placeholder="e.g. 9123 4567" autocomplete="tel">
-        </div>
-
-        <button id="joinBtn" class="join-btn">
-          <span id="joinBtnText">Join the Queue</span>
-          <span id="joinBtnIcon" class="material-symbols-outlined join-btn-icon" aria-hidden="true">arrow_forward</span>
-        </button>
-
-        <p class="form-note">
-          <span class="material-symbols-outlined form-note-icon" aria-hidden="true">phone_android</span>
-          Make sure your phone is on — we'll notify you when it's your turn!
-        </p>
-      </div>
-
-      <!-- Success Message (hidden by default) -->
-      <div class="success-card hidden" id="successCard">
-        <div class="success-icon">
-          <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
-        </div>
-        <h3 class="success-title">You're in the Queue!</h3>
-        <p class="success-msg">Hang tight — we'll call your name soon. Explore the other booths while you wait!</p>
-        <button class="rejoin-btn" id="rejoinBtn">Join Again</button>
-      </div>
-
-      <!-- Live Queue Display (hidden — only admins see the live queue)
-      <div class="live-queue-wrapper">
-        <div class="live-queue-header">
-          <h3 class="live-queue-title">
-            <span class="material-symbols-outlined live-dot" aria-hidden="true">circle</span>
-            Live Queue
-          </h3>
-          <button class="refresh-btn" id="refreshBtn" title="Refresh queue">
-            <span class="material-symbols-outlined refresh-icon" aria-hidden="true">refresh</span>
-            <span id="refreshBtnText">Refresh</span>
-          </button>
-        </div>
-        <div class="queue" id="queue">
-          <p class="queue-empty">Loading queue...</p>
-        </div>
-      </div>
-      -->
-    </div>
-  </section>
-
-{% endblock %}
-
-{% block extra_js %}
-  <script src="/js/queue.js"></script>
 {% endblock %}

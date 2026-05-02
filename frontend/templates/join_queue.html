@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <!-- ===== QUEUE JOIN SECTION ===== -->
+  <section class="section queue-section" id="join" style="padding-top: 8rem; min-height: calc(100vh - 100px);">
+    <div class="section-inner">
+      <div class="section-label">Join the Queue</div>
+      <h2 class="section-title">
+        <span class="material-symbols-outlined section-title-icon" aria-hidden="true">assignment</span>
+        Reserve Your Slot
+      </h2>
+      <p class="queue-intro">
+        Slots fill up fast! Enter your details below to join the virtual queue.
+        We'll call your number when it's your turn — no waiting around!
+      </p>
+
+      <div class="queue-form-card" id="queueFormCard">
+        <div class="form-header">
+          <span class="form-step">Step 1 of 1</span>
+          <h3 class="form-title">Your Details</h3>
+        </div>
+
+        <div class="form-group">
+          <label for="name" class="form-label">Full Name</label>
+          <input type="text" id="name" class="form-input" placeholder="e.g. Tan Wei Ming" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input type="tel" id="phone" class="form-input" placeholder="e.g. 9123 4567" autocomplete="tel">
+        </div>
+
+        <button id="joinBtn" class="join-btn">
+          <span id="joinBtnText">Join the Queue</span>
+          <span id="joinBtnIcon" class="material-symbols-outlined join-btn-icon" aria-hidden="true">arrow_forward</span>
+        </button>
+
+        <p class="form-note">
+          <span class="material-symbols-outlined form-note-icon" aria-hidden="true">phone_android</span>
+          Make sure your phone is on — we'll notify you when it's your turn!
+        </p>
+      </div>
+
+      <!-- Success Message (hidden by default) -->
+      <div class="success-card hidden" id="successCard">
+        <div class="success-icon">
+          <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+        </div>
+        <h3 class="success-title">You're in the Queue!</h3>
+        <p class="success-msg">Hang tight — we'll call your name soon. Explore the other booths while you wait!</p>
+        <button class="rejoin-btn" id="rejoinBtn">Join Again</button>
+      </div>
+
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="/js/queue.js"></script>
+{% endblock %}

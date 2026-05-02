@@ -16,5 +16,5 @@ const CONFIG = {
   DASHBOARD_REFRESH_MS: 15000,   // admin dashboard
 
   // ── Queue timing ─────────────────────────────────────────────
-  MINS_PER_PERSON: 1.5,            // estimated minutes per player
+  MINS_PER_PERSON: 2,            // estimated minutes per player
 };

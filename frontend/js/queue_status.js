@@ -85,7 +85,7 @@ function renderCard(data) {
       statusAhead.textContent = data.ahead;
     }
     
-    const mins = data.estimated_wait_mins;
+    const mins = Math.max(0, data.ahead) * CONFIG.MINS_PER_PERSON;
     statusWait.textContent = mins === 0 ? 'Almost now!' : `~${mins} min`;
   }
 
@@ -93,11 +93,11 @@ function renderCard(data) {
   if (s === 'serving') {
     statusServingBanner.classList.remove('hidden');
     statusCtaText.textContent = 'Please make your way to the booth now!';
-    document.title = '🎮 It\'s your turn! — Funtasia 2026';
+    document.title = 'It\'s your turn! — Funtasia 2026';
   } else if (s === 'done') {
     statusServingBanner.classList.add('hidden');
     statusCtaText.textContent = 'Your session is complete — thanks for playing!';
-    document.title = '✅ Done — Funtasia 2026';
+    document.title = 'Done — Funtasia 2026';
   } else {
     statusServingBanner.classList.add('hidden');
     statusCtaText.textContent = data.ahead === 0

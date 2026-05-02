@@ -293,7 +293,7 @@
 }
 
 .col-num    { width: 70px; }
-.col-name   { min-width: 140px; }
+.col-name   { min-width: 140px; max-width: 250px; word-break: break-word; }
 .col-status { width: 110px; }
 .col-time   { width: 160px; }
 .col-action { width: 44px; text-align: center; }
@@ -506,6 +506,8 @@
 .modal-details {
   display: flex;
   flex-direction: column;
+  max-height: 45vh;
+  overflow-y: auto;
 }
 
 .modal-detail-item {

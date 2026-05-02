@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
+from core.config import RATE_LIMIT_TIME
 from db.base import get_db
 from services import queue_service
 
@@ -13,9 +14,21 @@ class QueueRequest(BaseModel):
     ph_num: str
     name: str
 
+import time
+
+last_request_times: dict[str, float] = {}
+
 @router.post('/add')
-def add_queue(data: QueueRequest, db=Depends(get_db)):
+def add_queue(data: QueueRequest, request: Request, db=Depends(get_db)):
     if not data: return
+
+    client_ip = request.client.host
+    now = time.time()
+    if client_ip in last_request_times:
+        if now - last_request_times[client_ip] < RATE_LIMIT_TIME:
+            return JSONResponse({'status': 'failure', 'detail': 'Please wait 5 seconds before requesting again.'}, status_code=429)
+            
+    last_request_times[client_ip] = now
 
     success, queue_number = queue_service.add_to_queue(data, db)
 
@@ -26,7 +39,6 @@ def add_queue(data: QueueRequest, db=Depends(get_db)):
 
 @router.get('/position/{queue_number}')
 def queue_position(queue_number: int, db=Depends(get_db)):
-    """Public endpoint — returns position and estimated wait for status page."""
     info = queue_service.get_queue_position(queue_number, db)
     if info is None:
         return JSONResponse({'detail': 'Queue entry not found'}, status_code=404)

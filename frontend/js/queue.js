@@ -34,7 +34,13 @@ async function addToQueue() {
       body: JSON.stringify({ name, ph_num: phone })
     });
 
-    if (!res.ok) throw new Error("Server error");
+    if (!res.ok) {
+      if (res.status === 429) {
+        const errData = await res.json();
+        throw new Error(errData.detail || "Please wait 5 seconds before joining again.");
+      }
+      throw new Error("Server error");
+    }
     const result = await res.json();
 
     // Persist queue info for the status page
@@ -47,7 +53,7 @@ async function addToQueue() {
 
   } catch (err) {
     console.error(err);
-    showInlineError("Failed to join queue — please try again.");
+    showInlineError(err.message === "Server error" ? "Failed to join queue — please try again." : err.message);
   } finally {
     joinBtn.disabled = false;
     joinBtnText.textContent = "Join the Queue";

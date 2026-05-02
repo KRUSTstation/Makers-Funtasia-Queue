@@ -19,6 +19,10 @@
   {% block extra_css %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
+  <div class="top-logos" style="position: absolute; top: 0.2rem; left: 1rem; display: flex; gap: 1rem; z-index: 100;">
+    <img src="/images/funtasia-logo.svg" alt="Funtasia Logo" style="height: 40px; width: auto;">
+    <img src="/images/makers-logo.svg" alt="Makers Logo" style="height: 22px; width: auto; margin-top: 8px;">
+  </div>
 
   {% block content %}{% endblock %}
 

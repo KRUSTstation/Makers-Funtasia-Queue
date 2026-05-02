@@ -80,6 +80,8 @@ body {
   color: var(--cream);
   min-height: 100vh;
   line-height: 1.6;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 
   /* Subtle coffee-grain texture overlay */
   background-image:

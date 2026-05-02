@@ -19,3 +19,5 @@ ADMIN_PASSWORD = os.getenv('ADMIN_PASS')
 SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-secret')
 
 VALID_QUEUE_STATUSES = ('waiting', 'serving', 'done')
+
+RATE_LIMIT_TIME = 5 # seconds

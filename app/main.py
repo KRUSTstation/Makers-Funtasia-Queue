@@ -16,6 +16,7 @@ app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY, https_only=False)
 
 app.mount("/css", StaticFiles(directory=os.path.join(BASE_DIR, 'frontend', 'css')), name="css")
 app.mount("/js", StaticFiles(directory=os.path.join(BASE_DIR, 'frontend', 'js')), name="js")
+app.mount("/images", StaticFiles(directory=os.path.join(BASE_DIR, 'frontend', 'images')), name="images")
 
 app.include_router(base_router, prefix='')
 app.include_router(queue_router, prefix='/queue')
