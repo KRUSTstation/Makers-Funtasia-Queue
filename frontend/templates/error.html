@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Error {{ error_code }} — Funtasia 2026{% endblock %}
+
+{% block content %}
+  <header class="hero" style="min-height: 85vh;">
+    <div class="hero-badge" style="background: rgba(229, 64, 64, 0.12); border: 1px solid rgba(229, 64, 64, 0.35); color: #f08080;">Error {{ error_code }}</div>
+    <h1 class="hero-title" style="font-size: clamp(3rem, 10vw, 5rem);">
+      <span class="hero-title-main">Whoops!</span>
+    </h1>
+    <p class="hero-subtitle" style="margin-top: 1rem; color: var(--cream);">{{ error_message }}</p>
+    
+    <div style="margin-top: 2.5rem;">
+      <a href="/" class="join-btn" style="text-decoration: none; display: inline-flex;">
+        <span class="material-symbols-outlined join-btn-icon" aria-hidden="true" style="margin-right: 0.5rem;">home</span>
+        <span>Return to Home</span>
+      </a>
+    </div>
+  </header>
+{% endblock %}
