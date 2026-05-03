@@ -1,20 +1,25 @@
-{% extends "base.html" %}
-
-{% block title %}Admin Dashboard — Funtasia 2026{% endblock %}
-{% block description %}Administrator dashboard for Funtasia 2026 Makers Typing Game queue.{% endblock %}
-
-{% block meta %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Funtasia 2026</title>
+  <meta name="description" content="Administrator dashboard for Funtasia 2026 Makers Typing Game queue.">
   <meta name="robots" content="noindex, nofollow">
-{% endblock %}
 
-{% block extra_css %}
-  <link rel="stylesheet" href="/css/admin.css">
+  <!-- Google Fonts: Space + Arcade -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <!-- Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+  <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/admin_dashboard.css">
-{% endblock %}
+</head>
+<body class="dashboard-body">
 
-{% block body_class %}dashboard-body{% endblock %}
-
-{% block content %}
   <!-- ===== TOPBAR ===== -->
   <header class="dash-topbar" id="dashTopbar">
     <div class="dash-topbar-left">
@@ -36,7 +41,6 @@
         </div>
         <span class="dash-refresh-note">Auto-updates every 15s</span>
       </div>
-
 
       <!-- Refresh -->
       <button class="dash-icon-btn" id="refreshBtn" title="Refresh queue">
@@ -204,10 +208,7 @@
     </div>
   </div>
 
-{% endblock %}
-
-{% block footer %}{% endblock %}
-
-{% block extra_js %}
+  <script src="/js/config.js"></script>
   <script src="/js/admin_dashboard.js"></script>
-{% endblock %}
+</body>
+</html>

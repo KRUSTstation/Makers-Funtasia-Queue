@@ -1,6 +1,6 @@
 /* ============================================================
    QUEUE STATUS PAGE — queue_status.css
-   Extends main.css cappuccino token set.
+   Theme: Space + Arcade. Extends main.css token set.
    ============================================================ */
 
 /* ── Page layout ── */
@@ -8,14 +8,18 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 15%, rgba(155, 48, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 85%, rgba(0, 245, 255, 0.08) 0%, transparent 50%);
 }
 
 /* ── Header ── */
 .status-header {
-  background: var(--dark-roast);
+  background: var(--nebula);
   border-bottom: 1px solid var(--border);
   padding: 0.9rem 1.5rem;
   flex-shrink: 0;
+  box-shadow: 0 2px 20px rgba(0,245,255,0.06);
 }
 
 .status-header-inner {
@@ -32,16 +36,19 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: var(--caramel);
+  color: var(--neon-cyan);
   text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 600;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: color 0.2s;
+  transition: color 0.2s, text-shadow 0.2s;
 }
 
-.status-back-link:hover { color: var(--gold); }
+.status-back-link:hover {
+  color: var(--neon-magenta);
+  text-shadow: 0 0 8px var(--neon-magenta);
+}
 
 .status-back-link .material-symbols-outlined {
   font-size: 1rem;
@@ -49,11 +56,12 @@
 }
 
 .status-event-badge {
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
 }
 
 /* ── Main ── */
@@ -73,15 +81,16 @@
   flex-direction: column;
   align-items: center;
   gap: 0.7rem;
-  color: var(--caramel);
-  font-size: 0.95rem;
+  color: var(--dim-white);
+  font-size: 0.9rem;
 }
 
 .status-loading-icon {
   font-size: 2.5rem;
-  color: var(--gold);
+  color: var(--neon-cyan);
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
   animation: spin 1s linear infinite;
+  filter: drop-shadow(0 0 8px var(--neon-cyan));
 }
 
 /* ── Not found ── */
@@ -95,20 +104,20 @@
 
 .status-nf-icon {
   font-size: 3rem;
-  color: var(--caramel);
+  color: var(--neon-purple);
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+  filter: drop-shadow(0 0 10px var(--neon-purple));
 }
 
 .status-nf-title {
   font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: var(--foam);
+  font-size: 1.4rem;
+  color: var(--star-white);
 }
 
 .status-nf-msg {
-  font-size: 0.95rem;
-  color: var(--cream);
-  opacity: 0.8;
+  font-size: 0.92rem;
+  color: var(--dim-white);
   max-width: 360px;
 }
 
@@ -118,18 +127,22 @@
   gap: 0.45rem;
   margin-top: 0.5rem;
   padding: 0.7rem 1.4rem;
-  background: linear-gradient(135deg, var(--rust), var(--gold));
-  color: var(--espresso);
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+  color: var(--void);
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  font-weight: 400;
   text-decoration: none;
-  transition: filter 0.2s, transform 0.15s;
+  border-radius: var(--radius);
+  transition: filter 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 0 16px rgba(155,48,255,0.4);
+  letter-spacing: 0.05em;
 }
 
 .status-join-link:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0,245,255,0.5), 0 0 60px rgba(155,48,255,0.3);
 }
 
 .status-join-link .material-symbols-outlined {
@@ -141,19 +154,30 @@
 .status-card {
   width: 100%;
   max-width: 560px;
-  background: var(--dark-roast);
+  background: var(--nebula);
   border: 1px solid var(--border);
   position: relative;
   animation: fadeSlideDown 0.4s ease;
+  box-shadow: 0 0 30px rgba(0,245,255,0.06), 0 0 60px rgba(155,48,255,0.04);
 }
 
-/* Gold accent bar */
+/* Neon top accent bar */
 .status-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--rust), var(--gold), var(--caramel));
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--neon-purple), var(--neon-cyan), var(--neon-magenta));
+  box-shadow: 0 0 12px var(--neon-cyan);
+}
+
+/* Corner accent */
+.status-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 30px; height: 30px;
+  border-bottom: 2px solid var(--neon-magenta);
+  border-right: 2px solid var(--neon-magenta);
 }
 
 /* ── Greeting ── */
@@ -163,20 +187,20 @@
   gap: 0.5rem;
   padding: 1.2rem 1.5rem 0.6rem;
   font-size: 1rem;
-  color: var(--cream);
+  color: var(--star-white);
 }
 
 .status-greeting span:last-child {
-  flex: 1;
-  min-width: 0;
+  flex: 1; min-width: 0;
   word-break: break-all;
   overflow-wrap: anywhere;
 }
 
 .status-greeting-icon {
   font-size: 1.3rem;
-  color: var(--gold);
+  color: var(--neon-cyan);
   font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  filter: drop-shadow(0 0 6px var(--neon-cyan));
 }
 
 /* ── Queue number block ── */
@@ -185,18 +209,31 @@
   flex-direction: column;
   align-items: center;
   padding: 1.5rem 1.5rem 1rem;
-  background: var(--espresso);
+  background: var(--cosmos);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow orb behind number */
+.status-num-block::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px; height: 100px;
+  background: radial-gradient(ellipse, rgba(0,245,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .status-num-label {
-  font-size: 0.68rem;
-  font-weight: 700;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--caramel);
+  color: var(--dim-white);
   margin-bottom: 0.3rem;
 }
 
@@ -205,11 +242,12 @@
   font-size: clamp(4rem, 15vw, 6rem);
   font-weight: 900;
   line-height: 1;
-  background: linear-gradient(135deg, var(--gold-light), var(--latte), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 2px 16px rgba(212, 168, 67, 0.2));
+  color: var(--neon-cyan);
+  text-shadow:
+    0 0 20px rgba(0, 245, 255, 0.9),
+    0 0 40px rgba(0, 245, 255, 0.5),
+    0 0 80px rgba(155, 48, 255, 0.3);
+  position: relative;
 }
 
 /* ── Status badge ── */
@@ -222,28 +260,39 @@
 .status-badge {
   display: inline-block;
   padding: 0.3rem 1rem;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
+  border-radius: var(--radius);
 }
 
 .status-badge-waiting {
-  background: rgba(212, 168, 67, 0.12);
-  border: 1px solid rgba(212, 168, 67, 0.4);
-  color: var(--gold-light);
+  background: rgba(255, 230, 0, 0.1);
+  border: 1px solid rgba(255, 230, 0, 0.4);
+  color: var(--neon-yellow);
+  text-shadow: 0 0 6px var(--neon-yellow);
+  box-shadow: 0 0 10px rgba(255,230,0,0.15);
 }
 
 .status-badge-serving {
-  background: rgba(92, 160, 92, 0.15);
-  border: 1px solid rgba(92, 160, 92, 0.45);
-  color: #8fce8f;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.45);
+  color: var(--neon-green);
+  text-shadow: 0 0 6px var(--neon-green);
+  box-shadow: 0 0 10px rgba(0,255,136,0.2);
+  animation: neonPulse 2s ease-in-out infinite;
 }
 
 .status-badge-done {
-  background: rgba(120, 120, 120, 0.12);
-  border: 1px solid rgba(120, 120, 120, 0.35);
-  color: #aaa;
+  background: rgba(90, 90, 138, 0.15);
+  border: 1px solid rgba(90, 90, 138, 0.4);
+  color: var(--dim-white);
+}
+
+@keyframes neonPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,255,136,0.2); }
+  50%       { box-shadow: 0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.15); }
 }
 
 /* ── Info grid ── */
@@ -256,46 +305,45 @@
   border-bottom: 1px solid var(--border);
 }
 
-/* If there are 3 items (odd), let the last one span full width */
 .status-info-grid .status-info-item:last-child:nth-child(odd) {
   grid-column: 1 / -1;
 }
-
 
 .status-info-item {
   display: flex;
   align-items: flex-start;
   gap: 0.7rem;
   padding: 1rem 1.2rem;
-  background: var(--dark-roast);
+  background: var(--nebula);
+  transition: background 0.2s;
 }
+
+.status-info-item:hover { background: var(--cosmos); }
 
 .status-info-icon {
   font-size: 1.2rem;
-  color: var(--gold);
+  color: var(--neon-cyan);
   flex-shrink: 0;
   margin-top: 0.05rem;
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  filter: drop-shadow(0 0 4px var(--neon-cyan));
 }
 
-.status-info-item > div {
-  display: flex;
-  flex-direction: column;
-}
+.status-info-item > div { display: flex; flex-direction: column; }
 
 .status-info-label {
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--caramel);
+  color: var(--dim-white);
   margin-bottom: 0.15rem;
 }
 
 .status-info-value {
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--foam);
+  color: var(--star-white);
 }
 
 /* ── CTA message ── */
@@ -304,15 +352,12 @@
   align-items: flex-start;
   gap: 0.5rem;
   padding: 1rem 1.5rem;
-  font-size: 0.85rem;
-  color: var(--caramel);
-  opacity: 0.85;
+  font-size: 0.82rem;
+  color: var(--dim-white);
 }
 
 .status-cta .material-symbols-outlined {
-  font-size: 1rem;
-  flex-shrink: 0;
-  margin-top: 0.1rem;
+  font-size: 1rem; flex-shrink: 0; margin-top: 0.1rem;
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
 }
 
@@ -323,18 +368,21 @@
   gap: 0.6rem;
   margin: 0 1.5rem 1.2rem;
   padding: 0.9rem 1.1rem;
-  background: rgba(92, 160, 92, 0.12);
-  border: 1px solid rgba(92, 160, 92, 0.4);
-  color: #8fce8f;
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.4);
+  color: var(--neon-green);
   font-size: 0.9rem;
   font-weight: 600;
+  border-radius: var(--radius);
   animation: fadeSlideDown 0.3s ease;
+  box-shadow: 0 0 16px rgba(0,255,136,0.1);
+  text-shadow: 0 0 8px rgba(0,255,136,0.4);
 }
 
 .status-serving-banner .material-symbols-outlined {
-  font-size: 1.2rem;
-  flex-shrink: 0;
+  font-size: 1.2rem; flex-shrink: 0;
   font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  filter: drop-shadow(0 0 6px var(--neon-green));
 }
 
 /* ── Refresh note ── */
@@ -342,9 +390,8 @@
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.75rem;
-  color: var(--caramel);
-  opacity: 0.6;
+  font-size: 0.72rem;
+  color: var(--dim);
 }
 
 .status-refresh-note .material-symbols-outlined {
@@ -357,11 +404,6 @@
 
 /* ── Responsive ── */
 @media (max-width: 420px) {
-  .status-info-grid {
-    grid-template-columns: 1fr;
-  }
-  .status-header-inner {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  .status-info-grid { grid-template-columns: 1fr; }
+  .status-header-inner { flex-direction: column; align-items: flex-start; }
 }
