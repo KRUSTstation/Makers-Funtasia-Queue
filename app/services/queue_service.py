@@ -106,3 +106,12 @@ def get_all_queue(db) -> list[dict]:
     )
     rows = cursor.fetchall()
     return [dict(row) for row in rows]
+
+def __clear_queue(db):
+    cursor = db.cursor()
+    cursor.execute('DELETE FROM Queue')
+    db.commit()
+
+def clear_queue(db) -> bool:
+    return __execute_script(lambda: __clear_queue(db))
+

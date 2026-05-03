@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends, Request
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
+import re
 
 from core.config import RATE_LIMIT_TIME
 from db.base import get_db
 from services import queue_service
+from core.rate_limit import RateLimiter
 
 router = APIRouter()
 
@@ -14,21 +16,20 @@ class QueueRequest(BaseModel):
     ph_num: str
     name: str
 
-import time
+    @field_validator('ph_num')
+    @classmethod
+    def validate_phone(cls, v: str) -> str:
+        clean_v = "".join(v.split())
+        if not re.match(r'^[89]\d{7}$', clean_v):
+            raise ValueError('Invalid phone number. Must be an 8-digit Singapore number starting with 8 or 9.')
+        return clean_v
 
-last_request_times: dict[str, float] = {}
 
-@router.post('/add')
+queue_rate_limiter = RateLimiter(RATE_LIMIT_TIME)
+
+@router.post('/add', dependencies=[Depends(queue_rate_limiter)])
 def add_queue(data: QueueRequest, request: Request, db=Depends(get_db)):
     if not data: return
-
-    client_ip = request.client.host
-    now = time.time()
-    if client_ip in last_request_times:
-        if now - last_request_times[client_ip] < RATE_LIMIT_TIME:
-            return JSONResponse({'status': 'failure', 'detail': 'Please wait 5 seconds before requesting again.'}, status_code=429)
-            
-    last_request_times[client_ip] = now
 
     success, queue_number = queue_service.add_to_queue(data, db)
 

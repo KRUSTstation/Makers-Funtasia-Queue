@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue Display Board — Funtasia 2026</title>
+  <meta name="description" content="Public queue display board for Funtasia 2026 Makers Typing Game booth.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Google Fonts: Display + Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Material Symbols Outlined -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+
+  <link rel="stylesheet" href="/css/admin_display.css">
+</head>
+<body class="display-body">
+
+  <!-- Top bar with a back button for the admin -->
+  <div class="display-topbar">
+    <a href="/admin/dashboard" class="btn-back" title="Back to Dashboard">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+      <span>Dashboard</span>
+    </a>
+    <div class="display-brand">
+      <h2>Funtasia 2026</h2>
+      <h1>Queue Status</h1>
+    </div>
+    <div class="display-time" id="displayTime">
+      --:--
+    </div>
+  </div>
+
+  <div class="display-container">
+    <!-- Serving Column -->
+    <div class="display-col col-serving">
+      <div class="col-header">
+        <h2>Now Serving</h2>
+        <span class="material-symbols-outlined">sports_esports</span>
+      </div>
+      <div class="col-content" id="servingList">
+        <!-- JS will populate these -->
+        <div class="loading-state">Loading...</div>
+      </div>
+    </div>
+
+    <!-- Waiting Column -->
+    <div class="display-col col-waiting">
+      <div class="col-header">
+        <h2>Please Wait</h2>
+        <span class="material-symbols-outlined">hourglass_empty</span>
+      </div>
+      <div class="col-content" id="waitingList">
+        <!-- JS will populate these -->
+        <div class="loading-state">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/admin_display.js"></script>
+</body>
+</html>

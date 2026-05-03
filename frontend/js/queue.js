@@ -30,14 +30,22 @@ async function addToQueue() {
   try {
     const res = await fetch(`${CONFIG.API_BASE}/queue/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({ name, ph_num: phone })
     });
 
     if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
       if (res.status === 429) {
-        const errData = await res.json();
         throw new Error(errData.detail || "Please wait 5 seconds before joining again.");
+      } else if (res.status === 422) {
+        if (Array.isArray(errData.detail) && errData.detail.length > 0) {
+            throw new Error(errData.detail[0].msg.replace('Value error, ', ''));
+        }
+        throw new Error(errData.detail || "Validation error");
       }
       throw new Error("Server error");
     }

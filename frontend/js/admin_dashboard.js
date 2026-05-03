@@ -3,6 +3,7 @@
 // ── DOM refs ──
 const tableBody     = document.getElementById("queueTableBody");
 const refreshBtn    = document.getElementById("refreshBtn");
+const resetBtn      = document.getElementById("resetBtn");
 const refreshIcon   = refreshBtn.querySelector(".refresh-icon");
 const modalOverlay  = document.getElementById("modalOverlay");
 const modalClose    = document.getElementById("modalClose");
@@ -226,8 +227,35 @@ function hideFeedback() {
 // ── Refresh button ──
 refreshBtn.addEventListener("click", loadQueue);
 
+// ── Reset Queue button ──
+if (resetBtn) {
+  resetBtn.addEventListener("click", async () => {
+    if (!confirm("Are you sure you want to reset the queue? This will delete all items and cannot be undone.")) {
+      return;
+    }
+    
+    setRefreshing(true);
+    try {
+      const res = await fetch(`${CONFIG.API_BASE}/admin/queue/reset`, {
+        method: 'DELETE'
+      });
+      
+      if (res.status === 401) { window.location.href = '/admin/login'; return; }
+      if (!res.ok) throw new Error("Failed to reset queue");
+      
+      await loadQueue();
+      alert("Queue has been reset.");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to reset queue.");
+      setRefreshing(false);
+    }
+  });
+}
+
 function setRefreshing(on) {
   refreshBtn.disabled = on;
+  if (resetBtn) resetBtn.disabled = on;
   refreshIcon.style.animation = on ? "spin 0.7s linear infinite" : "";
 }
 

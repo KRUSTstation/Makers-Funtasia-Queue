@@ -46,7 +46,10 @@ async function attemptLogin() {
   try {
     const res = await fetch(`${CONFIG.API_BASE}/admin/auth`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
       body: JSON.stringify({ username, password })
     });
 
@@ -57,10 +60,14 @@ async function attemptLogin() {
       window.location.href = "/admin/dashboard";
     } else {
       const data = await res.json().catch(() => ({}));
-      showError(data.detail || "Invalid credentials. Please try again.");
-      shakeInput(passInput);
-      passInput.value = "";
-      passInput.focus();
+      if (res.status === 429) {
+        showError(data.detail || "Please wait 5 seconds before requesting again.");
+      } else {
+        showError(data.detail || "Invalid credentials. Please try again.");
+        shakeInput(passInput);
+        passInput.value = "";
+        passInput.focus();
+      }
     }
 
   } catch (err) {

@@ -3,10 +3,12 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
 from db.base import get_db
 from services import queue_service
-from core.config import TEMPLATES, ADMIN_USERNAME, ADMIN_PASSWORD, VALID_QUEUE_STATUSES
+from core.rate_limit import RateLimiter
+from core.config import TEMPLATES, ADMIN_USERNAME, ADMIN_PASSWORD, VALID_QUEUE_STATUSES, RATE_LIMIT_TIME
 
 router = APIRouter()
 
+auth_rate_limiter = RateLimiter(RATE_LIMIT_TIME)
 
 def _require_admin(request: Request):
     return request.session.get('is_admin', False)
@@ -26,7 +28,14 @@ def dashboard(request: Request):
     return TEMPLATES.TemplateResponse(request, 'admin_dashboard.html')
 
 
-@router.post('/auth', response_class=JSONResponse)
+@router.get('/display', response_class=HTMLResponse)
+def display(request: Request):
+    if not request.session.get('is_admin'):
+        return RedirectResponse('/admin/login', status_code=302)
+    return TEMPLATES.TemplateResponse(request, 'admin_display.html')
+
+
+@router.post('/auth', response_class=JSONResponse, dependencies=[Depends(auth_rate_limiter)])
 async def auth(request: Request):
     data = await request.json()
     username = data['username']
@@ -66,3 +75,14 @@ async def update_status(queue_number: int, request: Request, db=Depends(get_db))
         return JSONResponse({'detail': 'Queue entry not found or update failed'}, status_code=404)
 
     return {'success': True, 'queue_number': queue_number, 'status': status}
+
+@router.delete('/queue/reset')
+async def reset_queue(request: Request, db=Depends(get_db)):
+    if not request.session.get('is_admin'):
+        return JSONResponse({'detail': 'Not authenticated'}, status_code=401)
+    
+    ok = queue_service.clear_queue(db)
+    if not ok:
+        return JSONResponse({'detail': 'Failed to clear queue'}, status_code=500)
+    
+    return {'success': True}

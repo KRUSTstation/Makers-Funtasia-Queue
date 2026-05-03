@@ -101,8 +101,8 @@ function renderCard(data) {
   } else {
     statusServingBanner.classList.add('hidden');
     statusCtaText.textContent = data.ahead === 0
-      ? 'You\'re next! Head over to the booth when called.'
-      : 'Explore the other booths while you wait — we\'ll call your number!';
+      ? 'You\'re next! Head over to the booth.'
+      : 'Explore the other booths while you wait — keep an eye out for any updates!';
   }
 
 }
