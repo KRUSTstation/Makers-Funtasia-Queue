@@ -42,6 +42,13 @@ async function loadQueue() {
     if (!res.ok) throw new Error("Failed to fetch");
     const data = await res.json();
 
+    // Sort data: place 'done' items at the bottom, maintain relative order otherwise
+    data.sort((a, b) => {
+      if (a.status === 'done' && b.status !== 'done') return 1;
+      if (a.status !== 'done' && b.status === 'done') return -1;
+      return 0;
+    });
+
     renderTable(data);
     renderStats(data);
 
