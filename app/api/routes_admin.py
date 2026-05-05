@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 
 from db.base import get_db
 from services import queue_service
+from services import token_service
 from core.rate_limit import RateLimiter
 from core.config import TEMPLATES, ADMIN_USERNAME, ADMIN_PASSWORD, VALID_QUEUE_STATUSES, RATE_LIMIT_TIME
 
@@ -86,3 +87,29 @@ async def reset_queue(request: Request, db=Depends(get_db)):
         return JSONResponse({'detail': 'Failed to clear queue'}, status_code=500)
     
     return {'success': True}
+
+def _qr_response(request: Request) -> dict:
+    token, expires_at, seconds_remaining = token_service.get_current_token()
+    base_url = str(request.base_url).rstrip('/')
+    qr_url   = f"{base_url}/join?token={token}"
+    return {
+        'token':             token,
+        'expires_at':        expires_at,
+        'seconds_remaining': seconds_remaining,
+        'qr_url':            qr_url,
+    }
+
+
+@router.get('/qr/token')
+def get_qr_token(request: Request):
+    if not request.session.get('is_admin'):
+        return JSONResponse({'detail': 'Not authenticated'}, status_code=401)
+    return JSONResponse(_qr_response(request))
+
+
+@router.post('/qr/regenerate')
+def regenerate_qr_token(request: Request):
+    if not request.session.get('is_admin'):
+        return JSONResponse({'detail': 'Not authenticated'}, status_code=401)
+    token_service.generate_token()
+    return JSONResponse(_qr_response(request))

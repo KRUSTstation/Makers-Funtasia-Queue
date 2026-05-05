@@ -21,3 +21,5 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'fallback-dev-secret')
 VALID_QUEUE_STATUSES = ('waiting', 'serving', 'done')
 
 RATE_LIMIT_TIME = 5 # seconds
+
+QR_LIFETIME = int(os.getenv('QR_LIFETIME', 30)) # seconds a QR token is valid
