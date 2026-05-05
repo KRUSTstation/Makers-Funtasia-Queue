@@ -271,4 +271,68 @@
   .display-container { flex-direction: column; }
   .col-serving { border-right: none; border-bottom: 1px solid rgba(0,255,136,0.2); }
   .ticket { width: calc(33.333% - 0.8rem); }
+  
+  /* Hide QR on small screens to save space */
+  .display-qr-block { display: none; }
 }
+
+/* Floating QR Code Block */
+.display-qr-block {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--nebula);
+  border: 1px solid var(--neon-cyan);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 0 30px rgba(0, 245, 255, 0.2);
+  border-radius: var(--radius);
+  z-index: 50;
+  animation: qrFloatBounce 3s ease-in-out infinite;
+}
+
+@keyframes qrFloatBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.display-qr-label {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--neon-magenta);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 10px var(--neon-magenta);
+}
+
+.display-qr-container {
+  width: 140px;
+  height: 140px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.display-qr-container canvas {
+  width: 140px !important;
+  height: 140px !important;
+  display: block;
+}
+
+.display-qr-timer {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--dim-white);
+}
+
+.display-qr-timer span {
+  font-weight: 700;
+  color: var(--neon-cyan);
+}
+
+

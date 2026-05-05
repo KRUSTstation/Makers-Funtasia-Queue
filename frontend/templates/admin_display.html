@@ -61,6 +61,15 @@
     </div>
   </div>
 
-  <script src="/js/admin_display.js"></script>
+  <!-- Floating QR Code panel at bottom right -->
+  <div class="display-qr-block" id="qrBlock">
+    <div class="display-qr-label">Scan to Join!</div>
+    <div class="display-qr-container" id="qrContainer"></div>
+    <div class="display-qr-timer">Resets in <span id="qrCountdown">—</span>s</div>
+  </div>
+
+  <script src="/js/qrcode.min.js?v=2"></script>
+  <script src="/js/config.js?v=2"></script>
+  <script src="/js/admin_display.js?v=2"></script>
 </body>
 </html>

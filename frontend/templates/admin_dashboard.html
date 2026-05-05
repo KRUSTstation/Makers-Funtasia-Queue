@@ -7,16 +7,16 @@
   <meta name="description" content="Administrator dashboard for Funtasia 2026 Makers Typing Game queue.">
   <meta name="robots" content="noindex, nofollow">
 
-  <!-- Google Fonts: Space + Arcade -->
+  <!-- Google Fonts: Inter (minimalist admin theme) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- Material Symbols Outlined -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
-  <link rel="stylesheet" href="/css/main.css">
-  <link rel="stylesheet" href="/css/admin_dashboard.css">
+  <link rel="stylesheet" href="/css/main.css?v=2">
+  <link rel="stylesheet" href="/css/admin_dashboard.css?v=2">
 </head>
 <body class="dashboard-body">
 
@@ -42,21 +42,6 @@
         <span class="dash-refresh-note">Auto-updates every 15s</span>
       </div>
 
-      <!-- Refresh -->
-      <button class="dash-icon-btn" id="refreshBtn" title="Refresh queue">
-        <span class="material-symbols-outlined refresh-icon" aria-hidden="true">refresh</span>
-      </button>
-
-      <!-- Reset Queue -->
-      <button class="dash-icon-btn" id="resetBtn" title="Reset Queue">
-        <span class="material-symbols-outlined" aria-hidden="true">delete_sweep</span>
-      </button>
-
-      <!-- Display Board -->
-      <a href="/admin/display" class="dash-icon-btn" title="Display Board">
-        <span class="material-symbols-outlined" aria-hidden="true">tv</span>
-      </a>
-
       <!-- Logout -->
       <a href="/admin/logout" class="dash-logout-btn" title="Sign out">
         <span class="material-symbols-outlined" aria-hidden="true">logout</span>
@@ -65,73 +50,150 @@
     </div>
   </header>
 
-  <!-- ===== MAIN CONTENT ===== -->
-  <div class="dash-layout">
+  <!-- ===== BODY WRAPPER: sidebar + main ===== -->
+  <div class="dash-body-wrapper">
 
-    <!-- Stats bar -->
-    <div class="dash-stats" id="dashStats">
-      <div class="stat-card" id="statTotal">
-        <span class="material-symbols-outlined stat-icon" aria-hidden="true">group</span>
-        <div class="stat-info">
-          <span class="stat-value" id="statTotalVal">—</span>
-          <span class="stat-label">Total</span>
-        </div>
-      </div>
-      <div class="stat-card" id="statWaiting">
-        <span class="material-symbols-outlined stat-icon" aria-hidden="true">hourglass_empty</span>
-        <div class="stat-info">
-          <span class="stat-value" id="statWaitingVal">—</span>
-          <span class="stat-label">Waiting</span>
-        </div>
-      </div>
-      <div class="stat-card" id="statServing">
-        <span class="material-symbols-outlined stat-icon" aria-hidden="true">sports_esports</span>
-        <div class="stat-info">
-          <span class="stat-value" id="statServingVal">—</span>
-          <span class="stat-label">Serving</span>
-        </div>
-      </div>
-      <div class="stat-card" id="statDone">
-        <span class="material-symbols-outlined stat-icon" aria-hidden="true">check_circle</span>
-        <div class="stat-info">
-          <span class="stat-value" id="statDoneVal">—</span>
-          <span class="stat-label">Done</span>
-        </div>
-      </div>
-    </div>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="dash-sidebar" id="dashSidebar">
 
-    <!-- Queue table section -->
-    <section class="dash-section">
-      <div class="dash-section-header">
-        <h1 class="dash-section-title">
-          <span class="material-symbols-outlined" aria-hidden="true">assignment</span>
-          Queue
-        </h1>
-        <span class="dash-section-hint">Click any row to view full details</span>
+      <!-- Sidebar header -->
+      <div class="sidebar-section-label">Queue Controls</div>
+
+      <!-- REFRESH button -->
+      <button class="sidebar-btn sidebar-btn-refresh" id="refreshBtn" title="Refresh queue">
+        <span class="sidebar-btn-icon material-symbols-outlined refresh-icon" aria-hidden="true">refresh</span>
+        <span class="sidebar-btn-text">
+          <span class="sidebar-btn-title">Refresh Queue</span>
+          <span class="sidebar-btn-sub">Pull latest data</span>
+        </span>
+      </button>
+
+      <!-- RESET button -->
+      <button class="sidebar-btn sidebar-btn-reset" id="resetBtn" title="Reset Queue">
+        <span class="sidebar-btn-icon material-symbols-outlined" aria-hidden="true">delete_sweep</span>
+        <span class="sidebar-btn-text">
+          <span class="sidebar-btn-title">Reset Queue</span>
+          <span class="sidebar-btn-sub">Delete all entries</span>
+        </span>
+      </button>
+
+      <!-- Divider -->
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section-label">Navigation</div>
+
+      <!-- Display Board link -->
+      <a href="/admin/display" class="sidebar-btn sidebar-btn-display" title="Open Display Board">
+        <span class="sidebar-btn-icon material-symbols-outlined" aria-hidden="true">tv</span>
+        <span class="sidebar-btn-text">
+          <span class="sidebar-btn-title">Display Board</span>
+          <span class="sidebar-btn-sub">Public queue screen</span>
+        </span>
+      </a>
+
+      <!-- Divider -->
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-section-label">Join QR Code</div>
+
+      <!-- QR Code panel -->
+      <div class="sidebar-qr-block" id="qrBlock">
+        <div class="sidebar-qr-container" id="qrContainer"></div>
+        <div class="qr-expiry-row">
+          <span class="qr-expiry-text">
+            Expires in <strong id="qrCountdown">—</strong>s
+          </span>
+          <button class="qr-regen-btn" id="qrRegenBtn" title="Regenerate QR code">
+            <span class="material-symbols-outlined" aria-hidden="true">refresh</span>
+          </button>
+        </div>
+        <p class="qr-url-hint" id="qrUrlHint"></p>
       </div>
 
-      <div class="dash-table-wrapper" id="queueTableWrapper">
-        <table class="dash-table" id="queueTable">
-          <thead>
-            <tr>
-              <th class="col-num">#</th>
-              <th class="col-name">Name</th>
-              <th class="col-status">Status</th>
-              <th class="col-time">Joined</th>
-              <th class="col-action" aria-label="Actions"></th>
-            </tr>
-          </thead>
-          <tbody id="queueTableBody">
-            <tr class="dash-empty-row">
-              <td colspan="5">
-                <span class="material-symbols-outlined" aria-hidden="true">sync</span>
-                Loading queue…
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Spacer pushes system info to bottom -->
+      <div class="sidebar-spacer"></div>
+
+      <!-- System info block -->
+      <div class="sidebar-info">
+        <div class="sidebar-info-row">
+          <span class="material-symbols-outlined" aria-hidden="true">schedule</span>
+          Auto-refresh every 15s
+        </div>
+        <div class="sidebar-info-row">
+          <span class="material-symbols-outlined" aria-hidden="true">lock</span>
+          Secure admin session
+        </div>
       </div>
-    </section>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="dash-main">
+      <div class="dash-layout">
+
+        <!-- Stats bar -->
+        <div class="dash-stats" id="dashStats">
+          <div class="stat-card" id="statTotal">
+            <span class="material-symbols-outlined stat-icon" aria-hidden="true">group</span>
+            <div class="stat-info">
+              <span class="stat-value" id="statTotalVal">—</span>
+              <span class="stat-label">Total</span>
+            </div>
+          </div>
+          <div class="stat-card" id="statWaiting">
+            <span class="material-symbols-outlined stat-icon" aria-hidden="true">hourglass_empty</span>
+            <div class="stat-info">
+              <span class="stat-value" id="statWaitingVal">—</span>
+              <span class="stat-label">Waiting</span>
+            </div>
+          </div>
+          <div class="stat-card" id="statServing">
+            <span class="material-symbols-outlined stat-icon" aria-hidden="true">sports_esports</span>
+            <div class="stat-info">
+              <span class="stat-value" id="statServingVal">—</span>
+              <span class="stat-label">Serving</span>
+            </div>
+          </div>
+          <div class="stat-card" id="statDone">
+            <span class="material-symbols-outlined stat-icon" aria-hidden="true">check_circle</span>
+            <div class="stat-info">
+              <span class="stat-value" id="statDoneVal">—</span>
+              <span class="stat-label">Done</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Queue table section -->
+        <section class="dash-section">
+          <div class="dash-section-header">
+            <h1 class="dash-section-title">
+              <span class="material-symbols-outlined" aria-hidden="true">assignment</span>
+              Queue
+            </h1>
+            <span class="dash-section-hint">Click any row to view full details</span>
+          </div>
+
+          <div class="dash-table-wrapper" id="queueTableWrapper">
+            <table class="dash-table" id="queueTable">
+              <thead>
+                <tr>
+                  <th class="col-num">#</th>
+                  <th class="col-name">Name</th>
+                  <th class="col-status">Status</th>
+                  <th class="col-time">Joined</th>
+                  <th class="col-action" aria-label="Actions"></th>
+                </tr>
+              </thead>
+              <tbody id="queueTableBody">
+                <tr class="dash-empty-row">
+                  <td colspan="5">
+                    <span class="material-symbols-outlined" aria-hidden="true">sync</span>
+                    Loading queue…
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
   </div>
 
   <!-- ===== DETAIL MODAL ===== -->
@@ -208,7 +270,8 @@
     </div>
   </div>
 
-  <script src="/js/config.js"></script>
-  <script src="/js/admin_dashboard.js"></script>
+  <script src="/js/qrcode.min.js?v=2"></script>
+  <script src="/js/config.js?v=2"></script>
+  <script src="/js/admin_dashboard.js?v=3"></script>
 </body>
 </html>

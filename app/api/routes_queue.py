@@ -11,13 +11,13 @@ from core.rate_limit import RateLimiter
 
 router = APIRouter()
 
-MINS_PER_PERSON = 5  # estimated minutes each person takes
+MINS_PER_PERSON = 5
 
 
 class QueueRequest(BaseModel):
     ph_num: str
     name: str
-    token: str  # QR join token — required
+    token: str
 
     @field_validator('ph_num')
     @classmethod

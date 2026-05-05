@@ -42,11 +42,12 @@ async function loadQueue() {
     if (!res.ok) throw new Error("Failed to fetch");
     const data = await res.json();
 
-    // Sort data: place 'done' items at the bottom, maintain relative order otherwise
+    // Sort data: place 'done' items at the bottom, then sort each group by join time (earliest first)
     data.sort((a, b) => {
-      if (a.status === 'done' && b.status !== 'done') return 1;
-      if (a.status !== 'done' && b.status === 'done') return -1;
-      return 0;
+      const aDone = a.status === 'done' ? 1 : 0;
+      const bDone = b.status === 'done' ? 1 : 0;
+      if (aDone !== bDone) return aDone - bDone;
+      return new Date(a.created_at) - new Date(b.created_at);
     });
 
     renderTable(data);
@@ -285,3 +286,90 @@ function escapeHtml(str) {
 // ── Auto-refresh every 15 s ──
 loadQueue();
 setInterval(loadQueue, CONFIG.DASHBOARD_REFRESH_MS);
+
+// ── QR Code Panel ────────────────────────────────────────────────────────────
+const qrContainer  = document.getElementById('qrContainer');
+const qrCountdown  = document.getElementById('qrCountdown');
+const qrRegenBtn   = document.getElementById('qrRegenBtn');
+const qrUrlHint    = document.getElementById('qrUrlHint');
+
+let _qrCountdownTimer = null;   // setInterval handle for the countdown tick
+
+/** Fetch token info and render a fresh QR code */
+async function initQR() {
+  try {
+    const res = await fetch(`${CONFIG.API_BASE}/admin/qr/token`);
+    if (res.status === 401) { window.location.href = '/admin/login'; return; }
+    if (!res.ok) throw new Error('Failed to fetch QR token');
+    const data = await res.json();
+    renderQR(data);
+  } catch (err) {
+    console.error('QR init error:', err);
+    if (qrUrlHint) qrUrlHint.textContent = 'Could not load QR — check connection.';
+  }
+}
+
+/** Render a new QR code and start the countdown */
+function renderQR(data) {
+  // Clear previous QR and countdown
+  if (_qrCountdownTimer) clearInterval(_qrCountdownTimer);
+  qrContainer.innerHTML = '';
+
+  // Build a canvas and render into it
+  const canvas = document.createElement('canvas');
+  qrContainer.appendChild(canvas);
+
+  QRCode.toCanvas(canvas, data.qr_url, {
+    width:            160,
+    margin:           1,
+    color: { dark: '#000000', light: '#ffffff' },
+  }, (err) => {
+    if (err) console.error('QRCode render error:', err);
+  });
+
+  // Show the URL hint
+  if (qrUrlHint) qrUrlHint.textContent = data.qr_url;
+
+  // Start countdown from seconds_remaining
+  let secsLeft = data.seconds_remaining;
+  if (qrCountdown) qrCountdown.textContent = secsLeft;
+
+  _qrCountdownTimer = setInterval(async () => {
+    secsLeft -= 1;
+    if (qrCountdown) qrCountdown.textContent = Math.max(0, secsLeft);
+
+    if (secsLeft <= 0) {
+      clearInterval(_qrCountdownTimer);
+      // Auto-fetch a fresh token (server auto-generates when expired)
+      await initQR();
+    }
+  }, 1000);
+}
+
+/** Manual regenerate */
+async function regenQR() {
+  if (qrRegenBtn) {
+    qrRegenBtn.disabled = true;
+    qrRegenBtn.classList.add('spinning');
+  }
+  try {
+    const res = await fetch(`${CONFIG.API_BASE}/admin/qr/regenerate`, { method: 'POST' });
+    if (res.status === 401) { window.location.href = '/admin/login'; return; }
+    if (!res.ok) throw new Error('Failed to regenerate QR token');
+    const data = await res.json();
+    renderQR(data);
+  } catch (err) {
+    console.error('QR regen error:', err);
+  } finally {
+    if (qrRegenBtn) {
+      qrRegenBtn.disabled = false;
+      qrRegenBtn.classList.remove('spinning');
+    }
+  }
+}
+
+if (qrRegenBtn) qrRegenBtn.addEventListener('click', regenQR);
+
+// Kick off QR on page load
+initQR();
+

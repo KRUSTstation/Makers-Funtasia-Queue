@@ -142,6 +142,42 @@ body::after {
 .admin-btn .material-symbols-outlined { font-size: 1rem; }
 
 /* ============================================================
+   BACK BUTTON
+   ============================================================ */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  padding: 0.4rem 0.9rem 0.4rem 0.65rem;
+  background: transparent;
+  color: var(--dim-white);
+  border: 1px solid var(--border);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  text-decoration: none;
+  border-radius: var(--radius);
+  transition: color 0.2s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.back-btn .material-symbols-outlined {
+  font-size: 1.05rem;
+  transition: transform 0.2s ease;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+.back-btn:hover {
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+  background: rgba(0, 245, 255, 0.05);
+  box-shadow: 0 0 10px rgba(0, 245, 255, 0.1);
+}
+
+.back-btn:hover .material-symbols-outlined {
+  transform: translateX(-3px);
+}
+
+/* ============================================================
    HERO SECTION
    ============================================================ */
 .hero {
@@ -496,6 +532,52 @@ body::after {
 .rejoin-btn:hover {
   background: var(--neon-cyan); color: var(--void);
   box-shadow: 0 0 16px rgba(0,245,255,0.4);
+}
+
+/* ── Token Error Card ── */
+.token-error-card {
+  background: var(--nebula);
+  border: 1px solid var(--neon-magenta);
+  padding: 2.5rem 2rem; text-align: center; margin-bottom: 2rem;
+  animation: fadeSlideDown 0.4s ease;
+  box-shadow: 0 0 20px rgba(255,0,204,0.15);
+}
+
+.token-error-card.hidden { display: none; }
+
+.token-error-icon {
+  font-size: 3rem; margin-bottom: 1rem; color: var(--neon-magenta);
+}
+
+.token-error-icon .material-symbols-outlined {
+  font-size: 3.5rem;
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+  filter: drop-shadow(0 0 12px var(--neon-magenta));
+}
+
+.token-error-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem; color: var(--neon-magenta); margin-bottom: 0.5rem;
+  text-shadow: 0 0 12px rgba(255,0,204,0.4);
+}
+
+.token-error-msg { font-size: 0.95rem; color: var(--dim-white); margin-bottom: 1rem; }
+
+/* ── Token Loading ── */
+.token-loading {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.6rem; padding: 3rem 1rem;
+  font-family: var(--font-pixel); font-size: 0.55rem;
+  color: var(--neon-cyan); letter-spacing: 0.1em;
+  text-shadow: 0 0 8px var(--neon-cyan);
+}
+
+.token-loading.hidden { display: none; }
+
+.token-loading-icon {
+  font-size: 1.4rem; color: var(--neon-cyan);
+  animation: spin 1s linear infinite;
+  filter: drop-shadow(0 0 6px var(--neon-cyan));
 }
 
 /* ── Live Queue Display ── */

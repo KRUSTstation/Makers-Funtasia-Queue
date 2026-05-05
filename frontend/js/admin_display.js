@@ -83,4 +83,56 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set intervals
   setInterval(updateClock, 1000); // 1s
   setInterval(fetchQueueData, 15000); // 15s
+
+  // ── QR Code Logic ──────────────────────────────────────────────────────────
+  const qrContainer  = document.getElementById('qrContainer');
+  const qrCountdown  = document.getElementById('qrCountdown');
+  const qrBlock      = document.getElementById('qrBlock');
+
+  let _qrCountdownTimer = null;
+
+  async function initQR() {
+    try {
+      const res = await fetch(`${CONFIG.API_BASE}/admin/qr/token`);
+      if (res.status === 401) { window.location.href = '/admin/login'; return; }
+      if (!res.ok) throw new Error('Failed to fetch QR token');
+      const data = await res.json();
+      renderQR(data);
+    } catch (err) {
+      console.error('QR init error:', err);
+    }
+  }
+
+  function renderQR(data) {
+    if (_qrCountdownTimer) clearInterval(_qrCountdownTimer);
+    qrContainer.innerHTML = '';
+
+    const canvas = document.createElement('canvas');
+    qrContainer.appendChild(canvas);
+
+    if (typeof QRCode !== 'undefined') {
+      QRCode.toCanvas(canvas, data.qr_url, {
+        width: 140,
+        margin: 1,
+        color: { dark: '#000000', light: '#ffffff' },
+      }, (err) => {
+        if (err) console.error('QRCode render error:', err);
+      });
+    }
+
+    let secsLeft = data.seconds_remaining;
+    if (qrCountdown) qrCountdown.textContent = secsLeft;
+
+    _qrCountdownTimer = setInterval(async () => {
+      secsLeft -= 1;
+      if (qrCountdown) qrCountdown.textContent = Math.max(0, secsLeft);
+
+      if (secsLeft <= 0) {
+        clearInterval(_qrCountdownTimer);
+        await initQR(); // Auto-refresh when expired
+      }
+    }, 1000);
+  }
+
+  initQR();
 });

@@ -4,17 +4,36 @@
   <!-- ===== QUEUE JOIN SECTION ===== -->
   <section class="section queue-section" id="join" style="padding-top: 8rem; min-height: calc(100vh - 100px);">
     <div class="section-inner">
+      <a href="/" class="back-btn" aria-label="Back to home">
+        <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+        Back
+      </a>
       <div class="section-label">Join the Queue</div>
       <h2 class="section-title">
         <span class="material-symbols-outlined section-title-icon" aria-hidden="true">assignment</span>
         Reserve Your Slot
       </h2>
-      <p class="queue-intro">
-        Slots fill up fast! Enter your details below to join the virtual queue.
-        We'll call your number when it's your turn — no waiting around!
-      </p>
 
-      <div class="queue-form-card" id="queueFormCard">
+      <!-- Invalid / expired token error card (hidden by default) -->
+      <div class="token-error-card hidden" id="tokenErrorCard">
+        <div class="token-error-icon">
+          <span class="material-symbols-outlined" aria-hidden="true">qr_code_scanner</span>
+        </div>
+        <h3 class="token-error-title">Invalid or Expired QR Code</h3>
+        <p class="token-error-msg" id="tokenErrorMsg">
+          This QR code has expired or is invalid. Please ask a crew member to show you the latest QR code to scan.
+        </p>
+        <a href="/" class="rejoin-btn" style="display:inline-block; margin-top:1rem;">Back to Home</a>
+      </div>
+
+      <!-- Token loading spinner (shown while validating) -->
+      <div class="token-loading" id="tokenLoading">
+        <span class="material-symbols-outlined token-loading-icon" aria-hidden="true">sync</span>
+        Verifying access…
+      </div>
+
+      <!-- Join form (hidden until token validated) -->
+      <div class="queue-form-card hidden" id="queueFormCard">
         <div class="form-header">
           <span class="form-step">Step 1 of 1</span>
           <h3 class="form-title">Your Details</h3>
@@ -56,5 +75,6 @@
 {% endblock %}
 
 {% block extra_js %}
-  <script src="/js/queue.js"></script>
+  <script src="/js/queue.js?v=2"></script>
 {% endblock %}
+
