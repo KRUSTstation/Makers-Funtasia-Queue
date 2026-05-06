@@ -55,6 +55,8 @@ function showTokenError(msg) {
 async function addToQueue() {
   const name  = nameInput.value.trim();
   const phone = phoneInput.value.trim();
+  const attemptsInput = document.querySelector('input[name="attempts"]:checked');
+  const attempts = attemptsInput ? parseInt(attemptsInput.value, 10) : 1;
 
   if (!name || !phone) {
     shakeInput(!name ? nameInput : phoneInput);
@@ -73,7 +75,7 @@ async function addToQueue() {
         'Content-Type': 'application/json',
         'Accept':       'application/json',
       },
-      body: JSON.stringify({ name, ph_num: phone, token: _urlToken }),
+      body: JSON.stringify({ name, ph_num: phone, token: _urlToken, attempts }),
     });
 
     if (!res.ok) {

@@ -90,6 +90,15 @@
         </span>
       </a>
 
+      <!-- Manage Prizes button -->
+      <button class="sidebar-btn sidebar-btn-prizes" id="managePrizesBtn" title="Manage Prizes">
+        <span class="sidebar-btn-icon material-symbols-outlined" aria-hidden="true">redeem</span>
+        <span class="sidebar-btn-text">
+          <span class="sidebar-btn-title">Manage Prizes</span>
+          <span class="sidebar-btn-sub">Edit points & rewards</span>
+        </span>
+      </button>
+
       <!-- Divider -->
       <div class="sidebar-divider"></div>
       <div class="sidebar-section-label">Join QR Code</div>
@@ -176,6 +185,7 @@
                 <tr>
                   <th class="col-num">#</th>
                   <th class="col-name">Name</th>
+                  <th class="col-attempts">Attempts</th>
                   <th class="col-status">Status</th>
                   <th class="col-time">Joined</th>
                   <th class="col-action" aria-label="Actions"></th>
@@ -183,7 +193,7 @@
               </thead>
               <tbody id="queueTableBody">
                 <tr class="dash-empty-row">
-                  <td colspan="5">
+                  <td colspan="6">
                     <span class="material-symbols-outlined" aria-hidden="true">sync</span>
                     Loading queue…
                   </td>
@@ -234,6 +244,13 @@
           </div>
         </div>
         <div class="modal-detail-item">
+          <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">repeat</span>
+          <div>
+            <span class="modal-detail-label">Attempts</span>
+            <span class="modal-detail-value" id="modalAttempts">—</span>
+          </div>
+        </div>
+        <div class="modal-detail-item">
           <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">schedule</span>
           <div>
             <span class="modal-detail-label">Joined At</span>
@@ -267,6 +284,84 @@
         <span class="material-symbols-outlined" aria-hidden="true">info</span>
         Phone numbers are for operational use only.
       </p>
+    </div>
+  </div>
+
+  <!-- ===== PRIZES MODAL ===== -->
+  <div class="modal-overlay hidden" id="prizesModalOverlay" role="dialog" aria-modal="true" aria-labelledby="prizesModalTitle">
+    <div class="modal-card prizes-modal-card" id="prizesModalCard">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span class="material-symbols-outlined" style="font-size: 1.1rem; color: var(--db-ink-2);">redeem</span>
+          <h2 class="modal-title" id="prizesModalTitle">Manage Prizes</h2>
+        </div>
+        <button class="modal-close" id="prizesModalClose" aria-label="Close">
+          <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        </button>
+      </div>
+
+      <!-- Add Prize Form -->
+      <div class="prizes-modal-body">
+        <div class="prizes-add-section">
+          <p class="prizes-add-label">Add New Prize</p>
+          <form id="addPrizeForm" class="prizes-add-form">
+            <div class="prizes-field">
+              <label class="prizes-field-label" for="prizeNameInput">Prize Name</label>
+              <input
+                type="text"
+                id="prizeNameInput"
+                class="prizes-field-input"
+                placeholder="e.g. Makers Sticker Pack"
+                required
+                autocomplete="off"
+              >
+            </div>
+            <div class="prizes-field prizes-field--short">
+              <label class="prizes-field-label" for="prizePointsInput">Points</label>
+              <input
+                type="number"
+                id="prizePointsInput"
+                class="prizes-field-input"
+                placeholder="100"
+                min="1"
+                required
+              >
+            </div>
+            <button type="submit" class="prizes-add-btn">
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>
+              Add
+            </button>
+          </form>
+        </div>
+
+        <!-- Prizes List -->
+        <div class="prizes-list-section">
+          <p class="prizes-add-label">Current Prizes</p>
+          <div class="prizes-table-wrapper">
+            <table class="prizes-table">
+              <thead>
+                <tr>
+                  <th>Prize Name</th>
+                  <th class="prizes-col-pts">Points</th>
+                  <th class="prizes-col-action">Edit</th>
+                  <th class="prizes-col-action">Del</th>
+                </tr>
+              </thead>
+              <tbody id="prizesTableBody">
+                <tr>
+                  <td colspan="4" class="prizes-empty-cell">
+                    <span class="material-symbols-outlined" aria-hidden="true">sync</span>
+                    Loading...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 

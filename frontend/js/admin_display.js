@@ -33,12 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await res.json();
       
+      // Sort by join time (earliest first)
+      data.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      
       const serving = data.filter(item => item.status === 'serving').map(i => i.queue_number);
       const waiting = data.filter(item => item.status === 'waiting').map(i => i.queue_number);
-
-      // Sort numbers in ascending order
-      serving.sort((a, b) => a - b);
-      waiting.sort((a, b) => a - b);
 
       renderList(servingList, serving, previousServing, 'No one currently serving');
       renderList(waitingList, waiting, previousWaiting, 'No one waiting');

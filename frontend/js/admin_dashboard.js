@@ -11,6 +11,7 @@ const modalQueueNum = document.getElementById("modalQueueNum");
 const modalStatus   = document.getElementById("modalStatus");
 const modalName     = document.getElementById("modalName");
 const modalPhone    = document.getElementById("modalPhone");
+const modalAttempts = document.getElementById("modalAttempts");
 const modalTime     = document.getElementById("modalTime");
 
 // Action buttons
@@ -73,7 +74,7 @@ async function loadQueue() {
     console.error(err);
     tableBody.innerHTML = `
       <tr class="dash-empty-row">
-        <td colspan="5">
+        <td colspan="6">
           <span class="material-symbols-outlined" aria-hidden="true">wifi_off</span>
           Could not load queue — check your connection.
         </td>
@@ -99,7 +100,7 @@ function renderTable(data) {
   if (!data.length) {
     tableBody.innerHTML = `
       <tr class="dash-empty-row">
-        <td colspan="5">
+        <td colspan="6">
           <span class="material-symbols-outlined" aria-hidden="true">celebration</span>
           Queue is empty — no one has joined yet.
         </td>
@@ -121,6 +122,9 @@ function renderTable(data) {
         <span class="queue-num-badge">${item.queue_number}</span>
       </td>
       <td class="col-name">${escapeHtml(item.name)}</td>
+      <td class="col-attempts" style="color: var(--text-muted); font-weight: 500;">
+        ${item.attempts}
+      </td>
       <td class="col-status">
         <span class="status-tag status-${item.status}">${item.status}</span>
       </td>
@@ -146,6 +150,7 @@ function openModal(item) {
   modalQueueNum.textContent = `#${item.queue_number}`;
   modalName.textContent     = item.name;
   modalPhone.textContent    = item.ph_num;
+  if (modalAttempts) modalAttempts.textContent = item.attempts;
   modalTime.textContent     = formatTime(item.created_at);
 
   // Status tag
@@ -373,3 +378,149 @@ if (qrRegenBtn) qrRegenBtn.addEventListener('click', regenQR);
 // Kick off QR on page load
 initQR();
 
+// ── Prizes Management ────────────────────────────────────────────────────────
+const managePrizesBtn = document.getElementById('managePrizesBtn');
+const prizesModalOverlay = document.getElementById('prizesModalOverlay');
+const prizesModalClose = document.getElementById('prizesModalClose');
+const prizesTableBody = document.getElementById('prizesTableBody');
+const addPrizeForm = document.getElementById('addPrizeForm');
+const prizeNameInput = document.getElementById('prizeNameInput');
+const prizePointsInput = document.getElementById('prizePointsInput');
+
+if (managePrizesBtn && prizesModalOverlay) {
+  managePrizesBtn.addEventListener('click', () => {
+    prizesModalOverlay.classList.remove('hidden');
+    loadPrizes();
+  });
+
+  prizesModalClose.addEventListener('click', () => {
+    prizesModalOverlay.classList.add('hidden');
+  });
+
+  prizesModalOverlay.addEventListener('click', e => {
+    if (e.target === prizesModalOverlay) prizesModalOverlay.classList.add('hidden');
+  });
+
+  addPrizeForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = prizeNameInput.value.trim();
+    const points = parseInt(prizePointsInput.value, 10);
+    if (!name || isNaN(points)) return;
+
+    try {
+      const res = await fetch('/admin/prizes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, points })
+      });
+      if (res.status === 401) { window.location.href = '/admin/login'; return; }
+      if (!res.ok) throw new Error('Failed to add prize');
+      
+      prizeNameInput.value = '';
+      prizePointsInput.value = '';
+      await loadPrizes();
+    } catch (err) {
+      console.error(err);
+      alert('Failed to add prize');
+    }
+  });
+}
+
+async function loadPrizes() {
+  prizesTableBody.innerHTML = '<tr><td colspan="4" class="prizes-empty-cell"><span class="material-symbols-outlined" aria-hidden="true">sync</span>Loading...</td></tr>';
+  try {
+    const res = await fetch('/api/prizes');
+    if (!res.ok) throw new Error('Failed to fetch prizes');
+    const prizes = await res.json();
+    
+    if (prizes.length === 0) {
+      prizesTableBody.innerHTML = '<tr><td colspan="4" class="prizes-empty-cell"><span class="material-symbols-outlined" aria-hidden="true">redeem</span>No prizes added yet.</td></tr>';
+      return;
+    }
+
+    prizesTableBody.innerHTML = '';
+    prizes.forEach(prize => {
+      const tr = document.createElement('tr');
+      tr.id = `prize-row-${prize.id}`;
+      tr.innerHTML = `
+        <td class="prize-name-cell">${escapeHtml(prize.name)}</td>
+        <td class="prizes-col-pts prize-points-cell">${prize.points}</td>
+        <td class="prizes-col-action">
+          <button class="prizes-edit-btn" onclick="editPrize(${prize.id}, '${escapeHtml(prize.name).replace(/'/g, "\\'")}', ${prize.points})" title="Edit" aria-label="Edit ${escapeHtml(prize.name)}">
+            <span class="material-symbols-outlined" aria-hidden="true">edit</span>
+          </button>
+        </td>
+        <td class="prizes-col-action">
+          <button class="prizes-delete-btn" onclick="deletePrize(${prize.id})" title="Remove" aria-label="Delete ${escapeHtml(prize.name)}">
+            <span class="material-symbols-outlined" aria-hidden="true">delete</span>
+          </button>
+        </td>
+      `;
+      prizesTableBody.appendChild(tr);
+    });
+  } catch (err) {
+    console.error(err);
+    prizesTableBody.innerHTML = '<tr><td colspan="4" class="prizes-empty-cell" style="color: #cc2222;">Failed to load prizes</td></tr>';
+  }
+}
+
+function editPrize(id, currentName, currentPoints) {
+  const tr = document.getElementById(`prize-row-${id}`);
+  if (!tr) return;
+  tr.innerHTML = `
+    <td colspan="2" style="padding: 0.4rem 0.75rem;">
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <input type="text" class="prizes-field-input prizes-inline-input" id="edit-name-${id}" value="${escapeHtml(currentName)}" style="flex: 2;">
+        <input type="number" class="prizes-field-input prizes-inline-input" id="edit-points-${id}" value="${currentPoints}" min="1" style="flex: 1; min-width: 70px;">
+      </div>
+    </td>
+    <td class="prizes-col-action">
+      <button class="prizes-edit-btn prizes-save-btn" onclick="savePrize(${id})" title="Save">
+        <span class="material-symbols-outlined" aria-hidden="true">check</span>
+      </button>
+    </td>
+    <td class="prizes-col-action">
+      <button class="prizes-delete-btn" onclick="loadPrizes()" title="Cancel" style="border-color: var(--db-border); color: var(--db-ink-3);">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+    </td>
+  `;
+  document.getElementById(`edit-name-${id}`).focus();
+}
+
+async function savePrize(id) {
+  const nameEl   = document.getElementById(`edit-name-${id}`);
+  const pointsEl = document.getElementById(`edit-points-${id}`);
+  const name   = nameEl ? nameEl.value.trim() : '';
+  const points = pointsEl ? parseInt(pointsEl.value, 10) : NaN;
+  if (!name || isNaN(points) || points < 1) {
+    nameEl && nameEl.focus();
+    return;
+  }
+  try {
+    const res = await fetch(`/admin/prizes/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, points })
+    });
+    if (res.status === 401) { window.location.href = '/admin/login'; return; }
+    if (!res.ok) throw new Error('Failed to update prize');
+    await loadPrizes();
+  } catch (err) {
+    console.error(err);
+    alert('Failed to update prize');
+  }
+}
+
+async function deletePrize(id) {
+  if (!confirm('Delete this prize?')) return;
+  try {
+    const res = await fetch(`/admin/prizes/${id}`, { method: 'DELETE' });
+    if (res.status === 401) { window.location.href = '/admin/login'; return; }
+    if (!res.ok) throw new Error('Failed to delete prize');
+    await loadPrizes();
+  } catch (err) {
+    console.error(err);
+    alert('Failed to delete prize');
+  }
+}

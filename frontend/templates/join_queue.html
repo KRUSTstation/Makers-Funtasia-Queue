@@ -50,9 +50,23 @@
         </div>
 
         <div class="form-group">
-          <label for="attempts" class="form-label">Number of Attempts</label>
-          1: <input type="radio" id="attempts" class="form-input" value="1"><br>
-          3: <input type="radio" id="attempts" class="form-input" values="3">
+          <label class="form-label">Number of Attempts</label>
+          <div class="radio-group">
+            <label class="radio-card">
+              <input type="radio" name="attempts" value="1" checked>
+              <div class="radio-card-content">
+                <span class="material-symbols-outlined radio-icon" aria-hidden="true">looks_one</span>
+                <span>1 Attempt</span>
+              </div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="attempts" value="3">
+              <div class="radio-card-content">
+                <span class="material-symbols-outlined radio-icon" aria-hidden="true">looks_3</span>
+                <span>3 Attempts</span>
+              </div>
+            </label>
+          </div>
         </div>
 
         <button id="joinBtn" class="join-btn">

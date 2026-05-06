@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Join the Queue — Funtasia 2026{% endblock %}
+
+{% block content %}
+  <section class="section" style="padding-top: 8rem; min-height: calc(100vh - 100px); display: flex; align-items: center; justify-content: center;">
+    <div class="success-card" style="max-width: 500px; width: 100%; border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 245, 255, 0.15); display: block;">
+      <div class="success-icon" style="color: var(--neon-cyan);">
+        <span class="material-symbols-outlined" aria-hidden="true" style="filter: drop-shadow(0 0 12px var(--neon-cyan));">info</span>
+      </div>
+      <h3 class="success-title" style="color: var(--neon-cyan); text-shadow: 0 0 12px rgba(0, 245, 255, 0.4);">Almost there!</h3>
+      <p class="success-msg" style="margin-bottom: 2rem; font-size: 1.05rem;">
+        Come find us outside the hall and make payment before you can join the queue.
+      </p>
+      <a href="/" class="rejoin-btn" style="text-decoration: none; display: inline-block;">Back to Home</a>
+    </div>
+  </section>
+{% endblock %}

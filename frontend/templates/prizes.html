@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Prizes — Funtasia 2026{% endblock %}
+
+{% block content %}
+  <section class="section" style="padding-top: 8rem; min-height: calc(100vh - 100px);">
+    <div class="section-inner">
+      <a href="/" class="back-btn" aria-label="Back to home">
+        <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+        Back
+      </a>
+      
+      <div class="section-label">Rewards</div>
+      <h2 class="section-title">
+        <span class="material-symbols-outlined section-title-icon" aria-hidden="true">redeem</span>
+        Software Sector Prizes
+      </h2>
+      <p class="booth-description" style="margin-bottom: 2rem;">
+        Play the typing game, rack up points, and redeem these awesome prizes!
+      </p>
+
+      <!-- Loading state -->
+      <div class="token-loading" id="prizesLoading">
+        <span class="material-symbols-outlined token-loading-icon" aria-hidden="true">sync</span>
+        Loading prizes...
+      </div>
+
+      <!-- Error state -->
+      <div class="token-error-card hidden" id="prizesError">
+        <div class="token-error-icon">
+          <span class="material-symbols-outlined" aria-hidden="true">wifi_off</span>
+        </div>
+        <p class="token-error-msg">Could not load prizes. Please try again later.</p>
+      </div>
+
+      <!-- Prizes Grid -->
+      <div class="features-grid" id="prizesGrid" style="display: none; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; background: transparent; border: none;">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const loading = document.getElementById('prizesLoading');
+      const errorDiv = document.getElementById('prizesError');
+      const grid = document.getElementById('prizesGrid');
+
+      try {
+        const res = await fetch('/api/prizes');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const prizes = await res.json();
+
+        loading.style.display = 'none';
+        
+        if (prizes.length === 0) {
+          grid.innerHTML = '<p style="color: var(--dim-white);">No prizes available at the moment. Check back soon!</p>';
+          grid.style.display = 'block';
+          return;
+        }
+
+        grid.style.display = 'grid';
+        grid.innerHTML = '';
+        
+        prizes.forEach(prize => {
+          const card = document.createElement('div');
+          card.className = 'feature-card';
+          card.style.border = '1px solid var(--border)';
+          card.style.borderRadius = 'var(--radius)';
+          card.style.textAlign = 'center';
+          
+          card.innerHTML = `
+            <div class="feature-icon" style="margin-bottom: 1rem; color: var(--neon-magenta);">
+              <span class="material-symbols-outlined" style="font-size: 3rem; filter: drop-shadow(0 0 12px var(--neon-magenta));">redeem</span>
+            </div>
+            <h3 class="feature-title" style="color: var(--star-white); font-size: 1.2rem; margin-bottom: 0.5rem;">${escapeHtml(prize.name)}</h3>
+            <p class="feature-desc" style="color: var(--neon-cyan); font-family: var(--font-pixel); font-size: 0.7rem; letter-spacing: 0.1em; text-shadow: 0 0 8px var(--neon-cyan);">
+              ${prize.points} PTS
+            </p>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error(err);
+        loading.style.display = 'none';
+        errorDiv.classList.remove('hidden');
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      }
+    });
+  </script>
+{% endblock %}

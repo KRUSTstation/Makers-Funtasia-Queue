@@ -450,6 +450,69 @@ body::after {
   box-shadow: 0 0 0 3px rgba(0,245,255,0.15), 0 0 16px rgba(0,245,255,0.1);
 }
 
+/* ── Custom Radio Cards ── */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.radio-card {
+  flex: 1;
+  position: relative;
+  cursor: pointer;
+}
+
+.radio-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1rem;
+  background: var(--space);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--dim-white);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.radio-card:hover .radio-card-content {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 245, 255, 0.05);
+}
+
+.radio-card input[type="radio"]:focus-visible + .radio-card-content {
+  outline: 2px solid var(--neon-cyan);
+  outline-offset: 2px;
+}
+
+.radio-card input[type="radio"]:checked + .radio-card-content {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0, 245, 255, 0.1);
+  box-shadow: 0 0 0 1px var(--neon-cyan), 0 0 16px rgba(0, 245, 255, 0.2);
+  text-shadow: 0 0 8px rgba(0, 245, 255, 0.5);
+}
+
+.radio-icon {
+  font-size: 1.2rem;
+  font-family: 'Material Symbols Outlined';
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+.radio-card input[type="radio"]:checked + .radio-card-content .radio-icon {
+  font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
 /* Join Button */
 .join-btn {
   width: 100%; padding: 0.9rem 1.5rem; margin-top: 0.5rem;

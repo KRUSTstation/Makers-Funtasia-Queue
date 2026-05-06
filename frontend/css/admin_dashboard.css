@@ -210,6 +210,20 @@
   transform: translateY(-2px);
 }
 
+/* Prizes — gold accent on hover */
+.sidebar-btn-prizes:hover {
+  background: #fffbe6;
+  border-color: #b8a000;
+  color: #7a6800;
+  box-shadow: 0 2px 8px rgba(184,160,0,0.12);
+}
+
+.sidebar-btn-prizes:hover .sidebar-btn-icon {
+  transform: scale(1.15);
+}
+
+.sidebar-btn-prizes:hover .sidebar-btn-sub { color: #a08800; }
+
 /* Spacer */
 .sidebar-spacer { flex: 1; }
 
@@ -1079,6 +1093,7 @@
 }
 
 /* URL hint below QR (very small, truncated) */
+/* URL hint below QR (very small, truncated) */
 .qr-url-hint {
   font-family: var(--db-font);
   font-size: 0.58rem;
@@ -1092,4 +1107,259 @@
   width: 100%;
   opacity: 0.7;
 }
+
+
+/* ── Prizes Modal ─────────────────────────────────────────────────────────── */
+.prizes-modal-card {
+  max-width: 560px;
+}
+
+.prizes-modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Add section */
+.prizes-add-section {
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--db-border);
+  background: var(--db-surface);
+}
+
+.prizes-add-label {
+  font-family: var(--db-font);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--db-ink-3);
+  margin: 0 0 0.85rem;
+}
+
+.prizes-add-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.prizes-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 2;
+}
+
+.prizes-field--short {
+  flex: 1;
+  min-width: 90px;
+}
+
+.prizes-field-label {
+  font-family: var(--db-font);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--db-ink-2);
+}
+
+.prizes-field-input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-family: var(--db-font);
+  font-size: 0.85rem;
+  color: var(--db-ink);
+  background: var(--db-bg);
+  border: 1px solid var(--db-border-dark);
+  border-radius: var(--db-radius);
+  outline: none;
+  transition: border-color var(--db-transition), box-shadow var(--db-transition);
+  box-sizing: border-box;
+}
+
+.prizes-field-input::placeholder {
+  color: var(--db-ink-3);
+}
+
+.prizes-field-input:focus {
+  border-color: var(--db-ink);
+  box-shadow: 0 0 0 2px rgba(10,10,10,0.1);
+}
+
+.prizes-add-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0 1.1rem;
+  height: 38px;
+  background: var(--db-ink);
+  color: #ffffff;
+  border: 1px solid var(--db-ink);
+  font-family: var(--db-font);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border-radius: var(--db-radius);
+  flex-shrink: 0;
+  transition: background var(--db-transition), box-shadow var(--db-transition);
+}
+
+.prizes-add-btn:hover {
+  background: var(--db-ink-2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.prizes-add-btn .material-symbols-outlined {
+  font-size: 1rem;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+/* List section */
+.prizes-list-section {
+  padding: 1.25rem 1.25rem 1.5rem;
+}
+
+.prizes-table-wrapper {
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid var(--db-border-dark);
+}
+
+.prizes-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--db-font);
+  font-size: 0.85rem;
+}
+
+.prizes-table thead tr {
+  background: var(--db-surface);
+  border-bottom: 2px solid var(--db-border-dark);
+}
+
+.prizes-table th {
+  padding: 0.6rem 1rem;
+  text-align: left;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--db-ink-2);
+  white-space: nowrap;
+}
+
+.prizes-col-pts    { width: 90px; }
+.prizes-col-action { width: 70px; text-align: center; }
+
+.prizes-table tbody tr {
+  border-bottom: 1px solid var(--db-border);
+  transition: background var(--db-transition);
+}
+
+.prizes-table tbody tr:last-child { border-bottom: none; }
+.prizes-table tbody tr:hover { background: var(--db-surface); }
+
+.prizes-table td {
+  padding: 0.75rem 1rem;
+  color: var(--db-ink);
+  vertical-align: middle;
+}
+
+.prizes-table .prizes-col-pts {
+  font-weight: 700;
+  color: var(--db-ink);
+  letter-spacing: -0.01em;
+}
+
+.prizes-delete-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--db-border);
+  color: var(--db-ink-3);
+  cursor: pointer;
+  border-radius: var(--db-radius);
+  transition: background var(--db-transition), border-color var(--db-transition), color var(--db-transition);
+  margin: auto;
+}
+
+.prizes-delete-btn:hover {
+  background: #fff0f0;
+  border-color: #cc2222;
+  color: #cc2222;
+}
+
+.prizes-delete-btn .material-symbols-outlined {
+  font-size: 0.95rem;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+.prizes-empty-cell {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--db-ink-3);
+  font-size: 0.82rem;
+}
+
+.prizes-empty-cell .material-symbols-outlined {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--db-border);
+  margin-bottom: 0.4rem;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 40;
+}
+
+/* Edit button — blue-tinted on hover */
+.prizes-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: 1px solid var(--db-border);
+  color: var(--db-ink-3);
+  cursor: pointer;
+  border-radius: var(--db-radius);
+  transition: background var(--db-transition), border-color var(--db-transition), color var(--db-transition);
+  margin: auto;
+}
+
+.prizes-edit-btn:hover {
+  background: #e8f0fe;
+  border-color: #1a73e8;
+  color: #1a73e8;
+}
+
+/* Save state — green */
+.prizes-save-btn {
+  background: #e8fef0;
+  border-color: #008040;
+  color: #005228;
+}
+
+.prizes-save-btn:hover {
+  background: #008040;
+  border-color: #008040;
+  color: #ffffff;
+}
+
+.prizes-edit-btn .material-symbols-outlined {
+  font-size: 0.95rem;
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+}
+
+/* Inline edit inputs inside table rows */
+.prizes-inline-input {
+  padding: 0.3rem 0.5rem;
+  font-size: 0.82rem;
+  height: 32px;
+}
+
+
 
