@@ -49,6 +49,12 @@
           <input type="tel" id="phone" class="form-input" placeholder="e.g. 9123 4567" autocomplete="tel">
         </div>
 
+        <div class="form-group">
+          <label for="attempts" class="form-label">Number of Attempts</label>
+          1: <input type="radio" id="attempts" class="form-input" value="1"><br>
+          3: <input type="radio" id="attempts" class="form-input" values="3">
+        </div>
+
         <button id="joinBtn" class="join-btn">
           <span id="joinBtnText">Join the Queue</span>
           <span id="joinBtnIcon" class="material-symbols-outlined join-btn-icon" aria-hidden="true">arrow_forward</span>
@@ -73,7 +79,7 @@
     </div>
   </section>
 {% endblock %}
-
+Funtasia/Makers-Funtasia-Queue/frontend/images/funtasia-logo.svg Funtasia/Makers-Funtasia-Queue/frontend/images/makers-logo.svg
 {% block extra_js %}
   <script src="/js/queue.js?v=2"></script>
 {% endblock %}
