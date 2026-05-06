@@ -22,7 +22,7 @@ def __execute_script(func: callable):
     
     return True
 
-def __add_to_queue(ph_num, name, db):
+def __add_to_queue(ph_num, name, attempts, db):
     cursor = db.cursor()
     cursor.execute("SELECT queue_number FROM Queue WHERE status IN ('waiting', 'serving')")
     used_numbers = [i[0] for i in cursor.fetchall()]
@@ -37,7 +37,7 @@ def __add_to_queue(ph_num, name, db):
     if queue_number is None:
         raise Exception("No available queue numbers")
 
-    cursor.execute('INSERT INTO Queue(queue_number, ph_num, name) VALUES (?, ?, ?)', (queue_number, ph_num, name))
+    cursor.execute('INSERT INTO Queue(queue_number, ph_num, name, attempts) VALUES (?, ?, ?, ?)', (queue_number, ph_num, name, attempts))
     db.commit()
     return queue_number
 
@@ -46,7 +46,7 @@ def add_to_queue(data, db):
 
     def _do():
         nonlocal queue_number
-        queue_number = __add_to_queue(data.ph_num, data.name, db)
+        queue_number = __add_to_queue(data.ph_num, data.name, data.attempts, db)
 
     success = __execute_script(_do)
     return success, queue_number
@@ -84,7 +84,7 @@ def get_queue_position(queue_number: int, db):
         return None
 
     cursor.execute(
-        "SELECT COUNT(*) FROM Queue WHERE status = 'waiting' AND id < ?",
+        "SELECT COALESCE(SUM(attempts), 0) FROM Queue WHERE status = 'waiting' AND id < ?",
         (row['id'],)
     )
 
@@ -101,7 +101,7 @@ def get_queue_position(queue_number: int, db):
 def get_all_queue(db) -> list[dict]:
     cursor = db.cursor()
     cursor.execute(
-        'SELECT queue_number, name, ph_num, status, created_at '
+        'SELECT queue_number, name, ph_num, attempts, status, created_at '
         'FROM Queue ORDER BY queue_number ASC'
     )
     rows = cursor.fetchall()

@@ -16,3 +16,7 @@ def queue_status_page(request: Request):
 @router.get('/join', response_class=HTMLResponse)
 def join_page(request: Request):
     return TEMPLATES.TemplateResponse(request, 'join_queue.html')
+
+@router.get('/instructions', response_class=HTMLResponse)
+def instructions_page(request: Request):
+    return TEMPLATES.TemplateResponse(request, 'instructions.html')

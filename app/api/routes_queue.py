@@ -18,6 +18,7 @@ class QueueRequest(BaseModel):
     ph_num: str
     name: str
     token: str
+    attempts: int
 
     @field_validator('ph_num')
     @classmethod
@@ -26,6 +27,13 @@ class QueueRequest(BaseModel):
         if not re.match(r'^[89]\d{7}$', clean_v):
             raise ValueError('Invalid phone number. Must be an 8-digit Singapore number starting with 8 or 9.')
         return clean_v
+
+    @field_validator('attempts')
+    @classmethod
+    def validate_attempts(cls, v: int) -> int:
+        if v not in (1, 3):
+            raise ValueError('Invalid number of attempts. Must be 1 or 3.')
+        return v
 
 
 queue_rate_limiter = RateLimiter(RATE_LIMIT_TIME)

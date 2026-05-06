@@ -7,3 +7,10 @@ CREATE TABLE Queue (
     status TEXT NOT NULL DEFAULT 'waiting' CHECK(status IN ('waiting', 'serving', 'done')),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP UNIQUE
 );
+
+CREATE TABLE Prizes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    points INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
