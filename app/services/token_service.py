@@ -23,8 +23,6 @@ def get_current_token() -> tuple[str, float, int]:
 
 
 def validate_token(token: str) -> bool:
-    return True
-
     if not token or _token is None:
         return False
     return token == _token and time.time() < _expires_at
