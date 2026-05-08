@@ -178,7 +178,7 @@
       });
     }
 
-    function renderPriceList(prices, loadingEl, listEl, unitLabel) {
+    function renderPriceList(prices, loadingEl, listEl) {
       loadingEl.style.display = 'none';
       if (prices.length === 0) {
         makeEmptyMsg('No prices listed yet.', listEl);
@@ -192,10 +192,7 @@
         row.className = 'price-row';
         row.innerHTML = `
           <span class="price-row-name">${escapeHtml(item.item_name)}</span>
-          <div class="price-row-right">
-            <span class="price-row-value">${escapeHtml(item.price)}</span>
-            <span class="price-row-unit">${unitLabel}</span>
-          </div>
+          <span class="price-row-value">${escapeHtml(item.price)}</span>
         `;
         listEl.appendChild(row);
       });
@@ -212,8 +209,7 @@
     renderPriceList(
       swPrices,
       document.getElementById('swPricesLoading'),
-      document.getElementById('swPricesList'),
-      'per attempt'
+      document.getElementById('swPricesList')
     );
 
     // ── Hardware Sector ──
@@ -227,8 +223,7 @@
     renderPriceList(
       hwPrices,
       document.getElementById('hwPricesLoading'),
-      document.getElementById('hwPricesList'),
-      'per minute'
+      document.getElementById('hwPricesList')
     );
 
   });
