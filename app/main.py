@@ -12,6 +12,7 @@ from api.routes_queue import router as queue_router
 from api.routes_base import router as base_router
 from api.routes_admin import router as admin_router
 from api.routes_prizes import router as prizes_router
+from api.routes_prices import router as prices_router
 
 app = FastAPI()
 
@@ -49,3 +50,4 @@ app.include_router(base_router, prefix='')
 app.include_router(queue_router, prefix='/queue')
 app.include_router(admin_router, prefix='/admin')
 app.include_router(prizes_router, prefix='')
+app.include_router(prices_router, prefix='')

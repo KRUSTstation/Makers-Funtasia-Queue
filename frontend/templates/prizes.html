@@ -3,95 +3,234 @@
 {% block title %}Prizes — Funtasia 2026{% endblock %}
 
 {% block content %}
-  <section class="section" style="padding-top: 8rem; min-height: calc(100vh - 100px);">
-    <div class="section-inner">
-      <a href="/" class="back-btn" aria-label="Back to home">
-        <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
-        Back
-      </a>
-      
-      <div class="section-label">Rewards</div>
-      <h2 class="section-title">
-        <span class="material-symbols-outlined section-title-icon" aria-hidden="true">redeem</span>
-        Software Sector Prizes
-      </h2>
-      <p class="booth-description" style="margin-bottom: 2rem;">
-        Play the typing game, rack up points, and redeem these awesome prizes!
-      </p>
+<section class="section" style="padding-top: 8rem; min-height: calc(100vh - 100px);">
+  <div class="section-inner">
+    <a href="/" class="back-btn" aria-label="Back to home">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_back</span>
+      Back
+    </a>
 
-      <!-- Loading state -->
-      <div class="token-loading" id="prizesLoading">
-        <span class="material-symbols-outlined token-loading-icon" aria-hidden="true">sync</span>
-        Loading prizes...
-      </div>
+    <!-- Two-column sector layout -->
+    <div id="sectorsGrid" style="display: grid; grid-template-columns: 1fr; gap: 3rem; margin-top: 1.5rem;">
 
-      <!-- Error state -->
-      <div class="token-error-card hidden" id="prizesError">
-        <div class="token-error-icon">
-          <span class="material-symbols-outlined" aria-hidden="true">wifi_off</span>
+      <!-- ===== SOFTWARE SECTOR ===== -->
+      <div id="softwareColumn">
+        <div class="section-label">Software Sector</div>
+        <h2 class="section-title" style="margin-bottom: 0.5rem;">
+          <span class="material-symbols-outlined section-title-icon" aria-hidden="true">keyboard</span>
+          Software Prizes &amp; Prices
+        </h2>
+
+        <!-- Prizes sub-section -->
+        <p class="booth-description" style="margin-bottom: 1rem; margin-top: 1rem;">
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;color:var(--neon-magenta);">redeem</span>
+          <strong>Prizes</strong> — rack up points to redeem rewards!
+        </p>
+        <div class="token-loading" id="swPrizesLoading">
+          <span class="material-symbols-outlined token-loading-icon" aria-hidden="true">sync</span> Loading prizes...
         </div>
-        <p class="token-error-msg">Could not load prizes. Please try again later.</p>
+        <div class="token-error-card hidden" id="swPrizesError">
+          <div class="token-error-icon"><span class="material-symbols-outlined" aria-hidden="true">wifi_off</span></div>
+          <p class="token-error-msg">Could not load prizes.</p>
+        </div>
+        <div class="features-grid" id="swPrizesGrid"
+          style="display:none; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; background: transparent; border: none; margin-bottom: 2rem;">
+        </div>
+
+        <!-- Prices sub-section -->
+        <p class="booth-description" style="margin-bottom: 1rem;">
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;color:var(--gold);">payments</span>
+          <strong>Prices</strong> — cost per attempt
+        </p>
+        <div class="token-loading" id="swPricesLoading">
+          <span class="material-symbols-outlined token-loading-icon" aria-hidden="true">sync</span> Loading prices...
+        </div>
+        <div id="swPricesList" style="display:none; flex-direction:column; gap: 0.6rem;"></div>
       </div>
 
-      <!-- Prizes Grid -->
-      <div class="features-grid" id="prizesGrid" style="display: none; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; background: transparent; border: none;">
-        <!-- Filled by JS -->
+      <!-- ===== HARDWARE SECTOR ===== -->
+      <div id="hardwareColumn">
+        <div class="section-label">Hardware Sector</div>
+        <h2 class="section-title" style="margin-bottom: 0.5rem;">
+          <span class="material-symbols-outlined section-title-icon" aria-hidden="true">precision_manufacturing</span>
+          Hardware Prizes &amp; Prices
+        </h2>
+
+        <!-- Prizes sub-section -->
+        <p class="booth-description" style="margin-bottom: 1rem; margin-top: 1rem;">
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;color:var(--neon-cyan);">timer</span>
+          <strong>Prizes</strong> — beat the time limit to win!
+        </p>
+        <div class="token-loading" id="hwPrizesLoading">
+          <span class="material-symbols-outlined token-loading-icon" aria-hidden="true">sync</span> Loading prizes...
+        </div>
+        <div class="token-error-card hidden" id="hwPrizesError">
+          <div class="token-error-icon"><span class="material-symbols-outlined" aria-hidden="true">wifi_off</span></div>
+          <p class="token-error-msg">Could not load prizes.</p>
+        </div>
+        <div class="features-grid" id="hwPrizesGrid"
+          style="display:none; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 1rem; background: transparent; border: none; margin-bottom: 2rem;">
+        </div>
+
+        <!-- Prices sub-section -->
+        <p class="booth-description" style="margin-bottom: 1rem;">
+          <span class="material-symbols-outlined" style="font-size:1rem;vertical-align:middle;color:var(--gold);">payments</span>
+          <strong>Prices</strong> — cost per minute
+        </p>
+        <div class="token-loading" id="hwPricesLoading">
+          <span class="material-symbols-outlined token-loading-icon" aria-hidden="true">sync</span> Loading prices...
+        </div>
+        <div id="hwPricesList" style="display:none; flex-direction:column; gap: 0.6rem;"></div>
       </div>
-    </div>
-  </section>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const loading = document.getElementById('prizesLoading');
-      const errorDiv = document.getElementById('prizesError');
-      const grid = document.getElementById('prizesGrid');
+    </div><!-- end sectorsGrid -->
+  </div>
+</section>
 
-      try {
-        const res = await fetch('/api/prizes');
-        if (!res.ok) throw new Error('Failed to fetch');
-        const prizes = await res.json();
+<style>
+  @media (min-width: 768px) {
+    #sectorsGrid { grid-template-columns: 1fr 1fr !important; align-items: start; }
+  }
 
-        loading.style.display = 'none';
-        
-        if (prizes.length === 0) {
-          grid.innerHTML = '<p style="color: var(--dim-white);">No prizes available at the moment. Check back soon!</p>';
-          grid.style.display = 'block';
-          return;
-        }
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    gap: 1rem;
+    transition: background 0.2s;
+  }
+  .price-row:hover { background: rgba(255,255,255,0.06); }
+  .price-row-name  { color: var(--star-white); font-size: 0.95rem; font-weight: 500; }
+  .price-row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.1rem; }
+  .price-row-value { color: var(--gold); font-family: var(--font-pixel); font-size: 0.75rem; white-space: nowrap; text-shadow: 0 0 8px var(--gold); }
+  .price-row-unit  { color: var(--dim-white); font-size: 0.65rem; }
 
-        grid.style.display = 'grid';
-        grid.innerHTML = '';
-        
-        prizes.forEach(prize => {
-          const card = document.createElement('div');
-          card.className = 'feature-card';
-          card.style.border = '1px solid var(--border)';
-          card.style.borderRadius = 'var(--radius)';
-          card.style.textAlign = 'center';
-          
-          card.innerHTML = `
-            <div class="feature-icon" style="margin-bottom: 1rem; color: var(--neon-magenta);">
-              <span class="material-symbols-outlined" style="font-size: 3rem; filter: drop-shadow(0 0 12px var(--neon-magenta));">redeem</span>
-            </div>
-            <h3 class="feature-title" style="color: var(--star-white); font-size: 1.2rem; margin-bottom: 0.5rem;">${escapeHtml(prize.name)}</h3>
-            <p class="feature-desc" style="color: var(--neon-cyan); font-family: var(--font-pixel); font-size: 0.7rem; letter-spacing: 0.1em; text-shadow: 0 0 8px var(--neon-cyan);">
-              ${prize.points} PTS
-            </p>
-          `;
-          grid.appendChild(card);
-        });
-      } catch (err) {
-        console.error(err);
-        loading.style.display = 'none';
-        errorDiv.classList.remove('hidden');
+  .prize-card-qty {
+    font-size: 0.65rem;
+    color: var(--dim-white);
+    margin-top: 0.25rem;
+    font-family: var(--font-pixel);
+    letter-spacing: 0.05em;
+  }
+  .prize-card-qty.sold-out { color: #cc2222; }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", async () => {
+
+    function escapeHtml(str) {
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    function makeEmptyMsg(text, container) {
+      container.innerHTML = `<p style="color:var(--dim-white);font-size:0.9rem;">${text}</p>`;
+    }
+
+    // ── Fetch all data in parallel ──
+    let allPrizes = [], allPrices = [];
+    try {
+      const [prizesRes, pricesRes] = await Promise.all([fetch('/api/prizes'), fetch('/api/prices')]);
+      if (prizesRes.ok) allPrizes = await prizesRes.json();
+      if (pricesRes.ok)  allPrices  = await pricesRes.json();
+    } catch (err) { console.error(err); }
+
+    const swPrizes = allPrizes.filter(p => p.sector === 'software');
+    const hwPrizes = allPrizes.filter(p => p.sector === 'hardware');
+    const swPrices = allPrices.filter(p => p.sector === 'software');
+    const hwPrices = allPrices.filter(p => p.sector === 'hardware');
+
+    // ── Render helpers ──
+    function renderPrizeCards(prizes, loadingEl, gridEl, errorEl, thresholdUnit, accentColor, iconName) {
+      loadingEl.style.display = 'none';
+      if (prizes.length === 0) {
+        makeEmptyMsg('No prizes listed yet. Check back soon!', gridEl);
+        gridEl.style.display = 'block';
+        return;
       }
+      gridEl.style.display = 'grid';
+      gridEl.innerHTML = '';
+      prizes.forEach(prize => {
+        const isUnlimited = prize.quantity_left === -1;
+        const soldOut = !isUnlimited && prize.quantity_left === 0;
+        const card = document.createElement('div');
+        card.className = 'feature-card';
+        card.style.border = `1px solid var(--border)`;
+        card.style.borderRadius = 'var(--radius)';
+        card.style.textAlign = 'center';
+        if (soldOut) card.style.opacity = '0.45';
+        card.innerHTML = `
+          <div class="feature-icon" style="margin-bottom:0.75rem;color:${accentColor};">
+            <span class="material-symbols-outlined" style="font-size:2.5rem;filter:drop-shadow(0 0 10px ${accentColor});">${iconName}</span>
+          </div>
+          <h3 class="feature-title" style="color:var(--star-white);font-size:1.05rem;margin-bottom:0.4rem;">${escapeHtml(prize.name)}</h3>
+          <p class="feature-desc" style="color:${accentColor};font-family:var(--font-pixel);font-size:0.65rem;letter-spacing:0.1em;text-shadow:0 0 8px ${accentColor};">
+            ${prize.points} ${thresholdUnit}
+          </p>
+          <p class="prize-card-qty ${soldOut ? 'sold-out' : ''}">
+            ${soldOut ? 'SOLD OUT' : isUnlimited ? '∞ available' : `${prize.quantity_left} left`}
+          </p>
+        `;
+        gridEl.appendChild(card);
+      });
+    }
 
-      function escapeHtml(str) {
-        return String(str)
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;");
+    function renderPriceList(prices, loadingEl, listEl, unitLabel) {
+      loadingEl.style.display = 'none';
+      if (prices.length === 0) {
+        makeEmptyMsg('No prices listed yet.', listEl);
+        listEl.style.display = 'block';
+        return;
       }
-    });
-  </script>
+      listEl.style.display = 'flex';
+      listEl.innerHTML = '';
+      prices.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'price-row';
+        row.innerHTML = `
+          <span class="price-row-name">${escapeHtml(item.item_name)}</span>
+          <div class="price-row-right">
+            <span class="price-row-value">${escapeHtml(item.price)}</span>
+            <span class="price-row-unit">${unitLabel}</span>
+          </div>
+        `;
+        listEl.appendChild(row);
+      });
+    }
+
+    // ── Software Sector ──
+    renderPrizeCards(
+      swPrizes,
+      document.getElementById('swPrizesLoading'),
+      document.getElementById('swPrizesGrid'),
+      document.getElementById('swPrizesError'),
+      'PTS', 'var(--neon-magenta)', 'redeem'
+    );
+    renderPriceList(
+      swPrices,
+      document.getElementById('swPricesLoading'),
+      document.getElementById('swPricesList'),
+      'per attempt'
+    );
+
+    // ── Hardware Sector ──
+    renderPrizeCards(
+      hwPrizes,
+      document.getElementById('hwPrizesLoading'),
+      document.getElementById('hwPrizesGrid'),
+      document.getElementById('hwPrizesError'),
+      'min limit', 'var(--neon-cyan)', 'timer'
+    );
+    renderPriceList(
+      hwPrices,
+      document.getElementById('hwPricesLoading'),
+      document.getElementById('hwPricesList'),
+      'per minute'
+    );
+
+  });
+</script>
 {% endblock %}

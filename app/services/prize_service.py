@@ -18,18 +18,21 @@ def __execute_script(func: callable):
 
 def get_all_prizes(db) -> list[dict]:
     cursor = db.cursor()
-    cursor.execute('SELECT id, name, points FROM Prizes ORDER BY points ASC')
+    cursor.execute('SELECT id, name, sector, points, quantity_left FROM Prizes ORDER BY sector ASC, points ASC')
     rows = cursor.fetchall()
     return [dict(row) for row in rows]
 
-def __add_prize(name: str, points: int, db):
+def __add_prize(name: str, sector: str, points: int, quantity_left: int, db):
     cursor = db.cursor()
-    cursor.execute('INSERT INTO Prizes (name, points) VALUES (?, ?)', (name, points))
+    cursor.execute(
+        'INSERT INTO Prizes (name, sector, points, quantity_left) VALUES (?, ?, ?, ?)',
+        (name, sector, points, quantity_left)
+    )
     db.commit()
     return True
 
-def add_prize(name: str, points: int, db) -> bool:
-    return __execute_script(lambda: __add_prize(name, points, db))
+def add_prize(name: str, sector: str, points: int, quantity_left: int, db) -> bool:
+    return __execute_script(lambda: __add_prize(name, sector, points, quantity_left, db))
 
 def __delete_prize(prize_id: int, db):
     cursor = db.cursor()
@@ -40,11 +43,23 @@ def __delete_prize(prize_id: int, db):
 def delete_prize(prize_id: int, db) -> bool:
     return __execute_script(lambda: __delete_prize(prize_id, db))
 
-def __update_prize(prize_id: int, name: str, points: int, db):
+def __update_prize(prize_id: int, name: str, sector: str, points: int, quantity_left: int, db):
     cursor = db.cursor()
-    cursor.execute('UPDATE Prizes SET name = ?, points = ? WHERE id = ?', (name, points, prize_id))
+    cursor.execute(
+        'UPDATE Prizes SET name = ?, sector = ?, points = ?, quantity_left = ? WHERE id = ?',
+        (name, sector, points, quantity_left, prize_id)
+    )
     db.commit()
     return cursor.rowcount > 0
 
-def update_prize(prize_id: int, name: str, points: int, db) -> bool:
-    return __execute_script(lambda: __update_prize(prize_id, name, points, db))
+def update_prize(prize_id: int, name: str, sector: str, points: int, quantity_left: int, db) -> bool:
+    return __execute_script(lambda: __update_prize(prize_id, name, sector, points, quantity_left, db))
+
+def __update_quantity(prize_id: int, quantity_left: int, db):
+    cursor = db.cursor()
+    cursor.execute('UPDATE Prizes SET quantity_left = ? WHERE id = ?', (quantity_left, prize_id))
+    db.commit()
+    return cursor.rowcount > 0
+
+def update_quantity(prize_id: int, quantity_left: int, db) -> bool:
+    return __execute_script(lambda: __update_quantity(prize_id, quantity_left, db))

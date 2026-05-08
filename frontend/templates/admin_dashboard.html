@@ -1,24 +1,28 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard — Funtasia 2026</title>
+  <title>Admin Dashboard â€” Funtasia 2026</title>
   <meta name="description" content="Administrator dashboard for Funtasia 2026 Makers Typing Game queue.">
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Google Fonts: Inter (minimalist admin theme) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
 
   <!-- Material Symbols Outlined -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
   <link rel="stylesheet" href="/css/main.css?v=2">
   <link rel="stylesheet" href="/css/admin_dashboard.css?v=2">
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
 </head>
+
 <body class="dashboard-body">
 
   <!-- ===== TOPBAR ===== -->
@@ -100,6 +104,15 @@
         </span>
       </button>
 
+      <!-- Manage Prices button -->
+      <button class="sidebar-btn sidebar-btn-prizes" id="managePricesBtn" title="Manage Prices">
+        <span class="sidebar-btn-icon material-symbols-outlined" aria-hidden="true">payments</span>
+        <span class="sidebar-btn-text">
+          <span class="sidebar-btn-title">Manage Prices</span>
+          <span class="sidebar-btn-sub">Edit game prices</span>
+        </span>
+      </button>
+
       <!-- Divider -->
       <div class="sidebar-divider"></div>
       <div class="sidebar-section-label">Join QR Code</div>
@@ -109,7 +122,7 @@
         <div class="sidebar-qr-container" id="qrContainer"></div>
         <div class="qr-expiry-row">
           <span class="qr-expiry-text">
-            Expires in <strong id="qrCountdown">—</strong>s
+            Expires in <strong id="qrCountdown">â€”</strong>s
           </span>
           <button class="qr-regen-btn" id="qrRegenBtn" title="Regenerate QR code">
             <span class="material-symbols-outlined" aria-hidden="true">refresh</span>
@@ -143,28 +156,28 @@
           <div class="stat-card" id="statTotal">
             <span class="material-symbols-outlined stat-icon" aria-hidden="true">group</span>
             <div class="stat-info">
-              <span class="stat-value" id="statTotalVal">—</span>
+              <span class="stat-value" id="statTotalVal">â€”</span>
               <span class="stat-label">Total</span>
             </div>
           </div>
           <div class="stat-card" id="statWaiting">
             <span class="material-symbols-outlined stat-icon" aria-hidden="true">hourglass_empty</span>
             <div class="stat-info">
-              <span class="stat-value" id="statWaitingVal">—</span>
+              <span class="stat-value" id="statWaitingVal">â€”</span>
               <span class="stat-label">Waiting</span>
             </div>
           </div>
           <div class="stat-card" id="statServing">
             <span class="material-symbols-outlined stat-icon" aria-hidden="true">sports_esports</span>
             <div class="stat-info">
-              <span class="stat-value" id="statServingVal">—</span>
+              <span class="stat-value" id="statServingVal">â€”</span>
               <span class="stat-label">Serving</span>
             </div>
           </div>
           <div class="stat-card" id="statDone">
             <span class="material-symbols-outlined stat-icon" aria-hidden="true">check_circle</span>
             <div class="stat-info">
-              <span class="stat-value" id="statDoneVal">—</span>
+              <span class="stat-value" id="statDoneVal">â€”</span>
               <span class="stat-label">Done</span>
             </div>
           </div>
@@ -196,7 +209,7 @@
                 <tr class="dash-empty-row">
                   <td colspan="6">
                     <span class="material-symbols-outlined" aria-hidden="true">sync</span>
-                    Loading queue…
+                    Loading queueâ€¦
                   </td>
                 </tr>
               </tbody>
@@ -223,7 +236,7 @@
       <div class="modal-badge-row">
         <div class="modal-queue-badge">
           <span class="modal-queue-label">Queue No.</span>
-          <span class="modal-queue-num" id="modalQueueNum">—</span>
+          <span class="modal-queue-num" id="modalQueueNum">â€”</span>
         </div>
         <span class="modal-status-tag" id="modalStatus">waiting</span>
       </div>
@@ -234,28 +247,28 @@
           <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">person</span>
           <div>
             <span class="modal-detail-label">Full Name</span>
-            <span class="modal-detail-value" id="modalName">—</span>
+            <span class="modal-detail-value" id="modalName">â€”</span>
           </div>
         </div>
         <div class="modal-detail-item">
           <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">phone_android</span>
           <div>
             <span class="modal-detail-label">Phone Number</span>
-            <span class="modal-detail-value" id="modalPhone">—</span>
+            <span class="modal-detail-value" id="modalPhone">â€”</span>
           </div>
         </div>
         <div class="modal-detail-item">
           <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">repeat</span>
           <div>
             <span class="modal-detail-label">Attempts</span>
-            <span class="modal-detail-value" id="modalAttempts">—</span>
+            <span class="modal-detail-value" id="modalAttempts">â€”</span>
           </div>
         </div>
         <div class="modal-detail-item">
           <span class="material-symbols-outlined modal-detail-icon" aria-hidden="true">schedule</span>
           <div>
             <span class="modal-detail-label">Joined At</span>
-            <span class="modal-detail-value" id="modalTime">—</span>
+            <span class="modal-detail-value" id="modalTime">â€”</span>
           </div>
         </div>
       </div>
@@ -264,15 +277,15 @@
       <div class="modal-actions">
         <span class="modal-actions-label">Change Status</span>
         <div class="modal-action-btns">
-          <button class="modal-action-btn action-waiting"  id="btnWaiting"  data-status="waiting">
+          <button class="modal-action-btn action-waiting" id="btnWaiting" data-status="waiting">
             <span class="material-symbols-outlined" aria-hidden="true">hourglass_empty</span>
             Waiting
           </button>
-          <button class="modal-action-btn action-serving"  id="btnServing"  data-status="serving">
+          <button class="modal-action-btn action-serving" id="btnServing" data-status="serving">
             <span class="material-symbols-outlined" aria-hidden="true">sports_esports</span>
             Serving
           </button>
-          <button class="modal-action-btn action-done"     id="btnDone"     data-status="done">
+          <button class="modal-action-btn action-done" id="btnDone" data-status="done">
             <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
             Done
           </button>
@@ -288,7 +301,7 @@
     </div>
   </div>
 
-  <!-- ===== PRIZES MODAL ===== -->
+  <!-- ===== PRIZES MODAL (tabbed: Software / Hardware) ===== -->
   <div class="modal-overlay hidden" id="prizesModalOverlay" role="dialog" aria-modal="true" aria-labelledby="prizesModalTitle">
     <div class="modal-card prizes-modal-card" id="prizesModalCard">
 
@@ -303,32 +316,37 @@
         </button>
       </div>
 
-      <!-- Add Prize Form -->
+      <!-- Sector Tabs -->
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="prizeTabSoftware" data-sector="software">
+          <span class="material-symbols-outlined" style="font-size:1rem;">keyboard</span>
+          Software
+        </button>
+        <button class="modal-tab" id="prizeTabHardware" data-sector="hardware">
+          <span class="material-symbols-outlined" style="font-size:1rem;">precision_manufacturing</span>
+          Hardware
+        </button>
+      </div>
+
       <div class="prizes-modal-body">
+        <!-- Add Form -->
         <div class="prizes-add-section">
           <p class="prizes-add-label">Add New Prize</p>
           <form id="addPrizeForm" class="prizes-add-form">
             <div class="prizes-field">
               <label class="prizes-field-label" for="prizeNameInput">Prize Name</label>
-              <input
-                type="text"
-                id="prizeNameInput"
-                class="prizes-field-input"
-                placeholder="e.g. Makers Sticker Pack"
-                required
-                autocomplete="off"
-              >
+              <input type="text" id="prizeNameInput" class="prizes-field-input"
+                placeholder="e.g. Makers Sticker Pack" required autocomplete="off">
             </div>
             <div class="prizes-field prizes-field--short">
-              <label class="prizes-field-label" for="prizePointsInput">Points</label>
-              <input
-                type="number"
-                id="prizePointsInput"
-                class="prizes-field-input"
-                placeholder="100"
-                min="1"
-                required
-              >
+              <label class="prizes-field-label" for="prizeThresholdInput" id="prizeThresholdLabel">Points Required</label>
+              <input type="number" id="prizeThresholdInput" class="prizes-field-input"
+                placeholder="500" min="0" required>
+            </div>
+            <div class="prizes-field prizes-field--short">
+              <label class="prizes-field-label" for="prizeQtyInput">Qty Left (-1 = unlimited)</label>
+              <input type="number" id="prizeQtyInput" class="prizes-field-input"
+                placeholder="-1" value="-1" min="-1" required>
             </div>
             <button type="submit" class="prizes-add-btn">
               <span class="material-symbols-outlined" aria-hidden="true">add</span>
@@ -345,18 +363,16 @@
               <thead>
                 <tr>
                   <th>Prize Name</th>
-                  <th class="prizes-col-pts">Points</th>
+                  <th class="prizes-col-pts" id="prizesThresholdHeader">Points</th>
+                  <th class="prizes-col-pts">Qty Left</th>
                   <th class="prizes-col-action">Edit</th>
                   <th class="prizes-col-action">Del</th>
                 </tr>
               </thead>
               <tbody id="prizesTableBody">
-                <tr>
-                  <td colspan="4" class="prizes-empty-cell">
-                    <span class="material-symbols-outlined" aria-hidden="true">sync</span>
-                    Loading...
-                  </td>
-                </tr>
+                <tr><td colspan="5" class="prizes-empty-cell">
+                  <span class="material-symbols-outlined" aria-hidden="true">sync</span> Loading...
+                </td></tr>
               </tbody>
             </table>
           </div>
@@ -366,8 +382,116 @@
     </div>
   </div>
 
+  <!-- ===== PRICES MODAL (tabbed: Software / Hardware) ===== -->
+  <div class="modal-overlay hidden" id="pricesModalOverlay" role="dialog" aria-modal="true" aria-labelledby="pricesModalTitle">
+    <div class="modal-card prizes-modal-card" id="pricesModalCard">
+
+      <!-- Header -->
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span class="material-symbols-outlined" style="font-size: 1.1rem; color: var(--db-ink-2);">payments</span>
+          <h2 class="modal-title" id="pricesModalTitle">Manage Game Prices</h2>
+        </div>
+        <button class="modal-close" id="pricesModalClose" aria-label="Close">
+          <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        </button>
+      </div>
+
+      <!-- Sector Tabs -->
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="priceTabSoftware" data-sector="software">
+          <span class="material-symbols-outlined" style="font-size:1rem;">keyboard</span>
+          Software (per attempt)
+        </button>
+        <button class="modal-tab" id="priceTabHardware" data-sector="hardware">
+          <span class="material-symbols-outlined" style="font-size:1rem;">precision_manufacturing</span>
+          Hardware (per minute)
+        </button>
+      </div>
+
+      <div class="prizes-modal-body">
+        <!-- Add Form -->
+        <div class="prizes-add-section">
+          <p class="prizes-add-label">Add New Price</p>
+          <form id="addPriceForm" class="prizes-add-form">
+            <div class="prizes-field">
+              <label class="prizes-field-label" for="priceItemNameInput">Item Name</label>
+              <input type="text" id="priceItemNameInput" class="prizes-field-input"
+                placeholder="e.g. Game Entry" required autocomplete="off">
+            </div>
+            <div class="prizes-field prizes-field--short">
+              <label class="prizes-field-label" for="priceValueInput">Price ($)</label>
+              <input type="text" id="priceValueInput" class="prizes-field-input"
+                placeholder="e.g. $2" required autocomplete="off">
+            </div>
+            <button type="submit" class="prizes-add-btn">
+              <span class="material-symbols-outlined" aria-hidden="true">add</span>
+              Add
+            </button>
+          </form>
+        </div>
+
+        <!-- Prices List -->
+        <div class="prizes-list-section">
+          <p class="prizes-add-label">Current Prices</p>
+          <div class="prizes-table-wrapper">
+            <table class="prizes-table">
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th class="prizes-col-pts">Price</th>
+                  <th class="prizes-col-action">Edit</th>
+                  <th class="prizes-col-action">Del</th>
+                </tr>
+              </thead>
+              <tbody id="pricesTableBody">
+                <tr><td colspan="4" class="prizes-empty-cell">
+                  <span class="material-symbols-outlined" aria-hidden="true">sync</span> Loading...
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    .modal-tabs {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.75rem 1.25rem 0;
+      border-bottom: 1px solid var(--db-border);
+      background: var(--db-surface);
+    }
+    .modal-tab {
+      display: flex; align-items: center; gap: 0.35rem;
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--db-border);
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      background: transparent;
+      color: var(--db-ink-3);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .modal-tab.active {
+      background: var(--db-bg);
+      color: var(--db-ink-1);
+      border-color: var(--db-border);
+      border-bottom-color: var(--db-bg);
+      margin-bottom: -1px;
+    }
+    .modal-tab:hover:not(.active) { background: rgba(255,255,255,0.04); }
+  </style>
+
   <script src="/js/qrcode.min.js?v=2"></script>
   <script src="/js/config.js?v=2"></script>
-  <script src="/js/admin_dashboard.js?v=3"></script>
+  <script src="/js/admin_dashboard.js?v=4"></script>
+
 </body>
+
 </html>
